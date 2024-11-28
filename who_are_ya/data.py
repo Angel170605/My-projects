@@ -1,0 +1,33 @@
+BIRTH_FIELD = 4  # Change this number in case you modify the players stats fields.
+# FILEDS: NACIONALIDAD LIGA EQUIPO POSICIÓN EDAD DORSAL
+PLAYERS = {
+    # FC BARCELONA
+    'ter stegen': ['🇩🇪', 'LaLiga', 'FC Barcelona', 'POR', '30-04-1992', '1'],
+    'pau cubarsi': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '22-01-2007', '2'],
+    'alejandro balde': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '18-10-2003', '3'],
+    'ronald araujo': ['🇺🇾', 'LaLiga', 'FC Barcelona', 'DF', '07-03-1999', '4'],
+    'iñigo martinez': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '17-05-1991', '5'],
+    'gavi': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'MC', '05-08-2004', '6'],
+    'ferran torres': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DL', '29-02-2000', '7'],
+    'pedri': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'MC', '25-11-2002', '8'],
+    'lewandowski': ['🇵🇱', 'LaLiga', 'FC Barcelona', 'DL', '21-08-1988', '9'],
+    'ansu fati': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DL', '31-10-2002', '10'],
+    'raphinha': ['🇧🇷', 'LaLiga', 'FC Barcelona', 'DL', '14-12-1996', '11'],
+    'iñaki peña': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'POR', '02-03-1999', '13'],
+    'pablo torre': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'MC', '03-04-2003', '14'],
+    'andreas christensen': ['🇩🇰', 'LaLiga', 'FC Barcelona', 'DF', '10-04-1996', '15'],
+    'fermin lopez': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'MC', '11-05-2003', '16'],
+    'marc casado': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'MC', '17-09-2003', '17'],
+    'pau victor': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DL', '26-11-2001', '18'],
+    'lamine yamal': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DL', '13-07-2007', '19'],
+    'dani olmo': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'MC', '07-05-1998', '20'],
+    'frenkie de jong': ['🇳🇱', 'LaLiga', 'FC Barcelona', 'MC', '21-03-1997', '21'],
+    'jules kounde': ['🇫🇷', 'LaLiga', 'FC Barcelona', 'DF', '12-11-1998', '23'],
+    'eric garcia': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '09-01-2001', '24'],
+    'wojciech szczesny': ['🇵🇱', 'LaLiga', 'FC Barcelona', 'POR', '18-04-1990', '25'],
+    'ander astralaga': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'POR', '03-03-2004', '26'],
+    'marc bernal': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '26-05-2007', '28'],
+    'hector fort': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '02-08-2006', '32'],
+    'gerard martin': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '26-02-2002', '35'],
+    'sergi dominguez': ['🇪🇸', 'LaLiga', 'FC Barcelona', 'DF', '01-04-2005', '36'],
+}

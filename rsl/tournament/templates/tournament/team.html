@@ -1,6 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>{{ team.name }}</h1>
-  <img src="{{ team.shield.url }}" alt="{{ team.name }}">
-{% endblock  %}
+<div class="container mt-4 text-center">
+  <h1 class="display-4">{{ team.name }}</h1>
+  <img src="{{ team.shield.url }}" alt="{{ team.name }}" class="img-fluid mb-4" style="max-width: 300px;">
+  {% for player in team.players.all %}
+    <p>{{ player }}</p>
+  {% endfor %}
+  {% for user in users %}
+    <h1>{{ user }}</h1>
+  {% endfor %}
+</div>
+{% endblock %}

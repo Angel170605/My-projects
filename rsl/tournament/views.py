@@ -1,6 +1,8 @@
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
 
+from players.models import Player
 from tournament.models import Team
 
 from .forms import AddTeamForm, EditTeamForm
@@ -21,8 +23,8 @@ def teams(request):
 
 def team_info(request, team_id):
     team = Team.objects.get(id=team_id)
-    return render(request, 'tournament/team.html', {'team': team})
-
+    users = User.objects.all()
+    return render(request, 'tournament/team.html', {'team': team, 'users': users })
 
 def add_team(request):
     if not request.user.is_superuser:

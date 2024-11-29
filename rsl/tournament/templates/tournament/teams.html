@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-4">
@@ -12,17 +13,19 @@
             <a href="{% url 'tournament:team-info' team.id %}" class="btn btn-primary">Ver Info del Equipo</a>
           </div>
         </div>
+      </div>
     {% endfor %}
     {% if user.is_superuser %}
       <div class="col-md-4 mb-4">
-        <a href="{% url 'tournament:add-team' %}" class="card h-100 text-decoration-none">
-          <img src="" class="card-img-top" alt="Añadir equipo">
+        <div class="card h-100">
+          <img src="{% static 'img/add.png' %}" class="card-img-top" alt="Añadir equipo">
           <div class="card-body">
             <h5 class="card-title">Añadir equipo</h5>
+            <a href="{% url 'tournament:add-team' %}" class="btn btn-primary">Añadir equipo</a>
           </div>
-        </a>
+        </div>
       </div>
-    </div>
-  {% endif %}
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

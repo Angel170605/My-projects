@@ -8,6 +8,7 @@ class AddTeamForm(forms.ModelForm):
         model = Team
         fields = (
             'name',
+            'club_code',
             'shield',
         )
 
@@ -17,5 +18,7 @@ class EditTeamForm(forms.ModelForm):
         model = Team
         fields = (
             'name',
+            'club_code',
             'shield',
         )
+

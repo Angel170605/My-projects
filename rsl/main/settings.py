@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-&7gbv15ee#3f4^u1m9q2*w2yoz7in7u0nv)9gfgf)11bmmgdt0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.96', 'localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'players.apps.PlayersConfig',
     'tournament.apps.TournamentConfig',
     'accounts.apps.AccountsConfig',
     'shared.apps.SharedConfig',

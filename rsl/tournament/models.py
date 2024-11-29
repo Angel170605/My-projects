@@ -50,8 +50,14 @@ class Event(models.Model):
         RED_CARD: 'Tarjeta Roja',
     }
 
-    position = models.CharField(
+    type = models.CharField(
         max_length=2,
         choices=ROLE,
         default=GOAL,
     )
+
+    def __str__(self) -> str:
+        return f'{self.player} {self.type} {self.minute}'
+
+    class Meta:
+        ordering = ['minute']

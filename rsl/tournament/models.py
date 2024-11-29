@@ -22,6 +22,7 @@ class Match(models.Model):
     away = models.ForeignKey(Team, related_name='away_matches', on_delete=models.CASCADE)
     local_goals = models.SmallIntegerField(null=True, blank=True)
     away_goals = models.SmallIntegerField(null=True, blank=True)
+    date = models.DateField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'

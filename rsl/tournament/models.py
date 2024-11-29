@@ -24,5 +24,8 @@ class Match(models.Model):
     away_goals = models.SmallIntegerField(null=True, blank=True)
     date = models.DateField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['date']
+
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'

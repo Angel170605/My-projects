@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from players.models import Player
 from tournament.models import Team
 
-from .forms import AddTeamForm, EditTeamForm
+from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
 
 
 def main(request):
@@ -19,7 +19,6 @@ def info(request):
 def teams(request):
     teams = Team.objects.all()
     return render(request, 'tournament/teams.html', {'teams': teams})
-
 
 def team_info(request, team_id):
     team = Team.objects.get(id=team_id)
@@ -55,3 +54,19 @@ def delete_team(request, name: str):
     team = Team.objects.get(name=name)
     team.delete()
     return redirect('tournament:teams')
+
+
+def crear_perfil_jugador(request, team_id, user_id):
+    team = Team.objects.get(id=team_id)
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        form = SignPlayerForm(request.POST)
+        if form.is_valid():
+            player = form.save(commit=False)
+            player.user = user
+            player.team = team
+            player.save()
+            return redirect('tournament:team-info', team_id)
+    else:
+        form = SignPlayerForm()
+    return render(request, 'tournament/form.html', {'form': form, 'team': team, 'user': user})

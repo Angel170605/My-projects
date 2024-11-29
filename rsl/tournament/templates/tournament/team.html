@@ -4,12 +4,50 @@
 {% block content %}
 <div class="container mt-4 text-center">
   <h1 class="display-4">{{ team.name }}</h1>
-  <img src="{{ team.shield.url }}" alt="{{ team.name }}" class="img-fluid mb-4" style="max-width: 300px;">
-  {% for player in team.players.all %}
-    <p>{{ player }}</p>
-  {% endfor %}
-  {% for user in users %}
-    <h1>{{ user }}</h1>
-  {% endfor %}
+  <img src="{{ team.shield.url }}" alt="{{ team.name }}" class="img-fluid mb-4 fixed-size">
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Jugador</th>
+        <th>Partidos jugados</th>
+        <th>Goles</th>
+        <th>Asistencias</th>
+        <th>Tarjetas Amarillas</th>
+        <th>Tarjetas Rojas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for player in players %}
+      <tr>
+        <td>{{ player.user.first_name }}</td>
+        <td>{{ player.played }}</td>
+        <td>{{ player.goals }}</td>
+        <td>{{ player.assists }}</td>
+        <td>{{ player.yellow_cards }}</td>
+        <td>{{ player.red_cards }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if user.is_superuser %}
+    <details class="mt-4">
+      <summary class="btn btn-outline-primary btn-sm" style="cursor: pointer; list-style: none;">
+        Fichar
+      </summary>
+      <div class="mt-2">
+        {% for user in users %}
+          {% if not user.player %}
+            <div class="mb-2">
+              <span>{{ user }}</span>
+              <a href="{% url 'tournament:sign-player' team.id user.id %}" class="btn btn-primary btn-sm ml-2">Fichar</a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </details>  
+  {% endif %}
 </div>
+
 {% endblock %}

@@ -1,6 +1,6 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
 
 from players.models import Player
 from tournament.models import Team
@@ -20,10 +20,15 @@ def teams(request):
     teams = Team.objects.all()
     return render(request, 'tournament/teams.html', {'teams': teams})
 
+
 def team_info(request, team_id):
     team = Team.objects.get(id=team_id)
     users = User.objects.all()
-    return render(request, 'tournament/team.html', {'team': team, 'users': users })
+    players = Player.objects.filter(team=team)
+    return render(
+        request, 'tournament/team.html', {'team': team, 'users': users, 'players': players}
+    )
+
 
 def add_team(request):
     if not request.user.is_superuser:
@@ -56,7 +61,7 @@ def delete_team(request, name: str):
     return redirect('tournament:teams')
 
 
-def crear_perfil_jugador(request, team_id, user_id):
+def sign_player(request, team_id, user_id):
     team = Team.objects.get(id=team_id)
     user = User.objects.get(id=user_id)
     if request.method == 'POST':

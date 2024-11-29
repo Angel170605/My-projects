@@ -3,13 +3,15 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from players.models import Player
-from tournament.models import Team
+from tournament.models import Match, Team
 
 from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
 
 
 def main(request):
-    return render(request, 'tournament/main.html')
+    matches = Match.objects.all()
+    teams = Team.objects.all()
+    return render(request, 'tournament/main.html', {'matches': matches, 'teams': teams})
 
 
 def info(request):

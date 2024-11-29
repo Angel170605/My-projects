@@ -29,3 +29,29 @@ class Match(models.Model):
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'
+
+
+class Event(models.Model):
+    game = models.ForeignKey(Match, related_name='events', on_delete=models.CASCADE)
+    minute = models.SmallIntegerField(default=00)
+    player = models.ForeignKey('players.Player', related_name='events', on_delete=models.CASCADE)
+    second_player = models.ForeignKey(
+        'players.Player', related_name='sp_events', on_delete=models.CASCADE, blank=True
+    )
+
+    GOAL = 'GL'
+    CHANGE = 'CG'
+    YELLOW_CARD = 'YC'
+    RED_CARD = 'RC'
+    ROLE = {
+        GOAL: 'Gol',
+        CHANGE: 'Cambio',
+        YELLOW_CARD: 'Tarjeta Amarilla',
+        RED_CARD: 'Tarjeta Roja',
+    }
+
+    position = models.CharField(
+        max_length=2,
+        choices=ROLE,
+        default=GOAL,
+    )

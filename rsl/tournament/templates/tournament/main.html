@@ -8,6 +8,7 @@
     <h2 class="lead text-center">Partidos</h2>
     {% for match in matches %}
       {% include "match.html" %}
+      <a href="{% url "tournament:match-info" match.id %}">Detalles</a>
     {% endfor %}
   {% endif %}
 </div>

@@ -3,7 +3,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from players.models import Player
-from tournament.models import Match, Team
+from tournament.models import Match, Team, Event
 
 from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
 
@@ -77,3 +77,8 @@ def sign_player(request, team_id, user_id):
     else:
         form = SignPlayerForm()
     return render(request, 'tournament/form.html', {'form': form, 'team': team, 'user': user})
+
+def match_info(request, match_id):
+    match = Match.objects.get(id=match_id)
+    events = Event.objects.filter(game=match)
+    return render(request, 'tournament/match_info.html', {'match': match, 'events': events})

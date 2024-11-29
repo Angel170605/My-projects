@@ -43,7 +43,7 @@ class Event(models.Model):
     CHANGE = 'CG'
     YELLOW_CARD = 'YC'
     RED_CARD = 'RC'
-    ROLE = {
+    TYPE = {
         GOAL: 'Gol',
         CHANGE: 'Cambio',
         YELLOW_CARD: 'Tarjeta Amarilla',
@@ -57,7 +57,7 @@ class Event(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.player} {self.type} {self.minute}'
+        return f'{self.player.user.first_name} {self.type} {self.minute}'
 
     class Meta:
         ordering = ['minute']

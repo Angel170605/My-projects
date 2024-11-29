@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from players.models import Player
 from tournament.models import Match, Team, Event
 
-from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
+from .forms import AddTeamForm, EditTeamForm, SignPlayerForm, PlayerStatsForm
 
 
 def main(request):
@@ -82,3 +82,13 @@ def match_info(request, match_id):
     match = Match.objects.get(id=match_id)
     events = Event.objects.filter(game=match)
     return render(request, 'tournament/match_info.html', {'match': match, 'events': events})
+
+def edit_player_stats(request, user_id, team_id):
+    player = Player.objects.get(user=user_id)
+    if request.method == 'POST':
+        if (form := PlayerStatsForm(request.POST, instance=player)).is_valid():
+            player = form.save()
+            return redirect('tournament:team-info', team_id)
+    else:
+        form = PlayerStatsForm()
+    return render(request, 'tournament/form.html', {'form': form, 'player':player})

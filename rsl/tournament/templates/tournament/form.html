@@ -1,3 +1,5 @@
+{% extends "form_base.html" %}
+
 <form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {{ form }}

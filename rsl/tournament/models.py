@@ -52,7 +52,7 @@ class Event(models.Model):
 
     type = models.CharField(
         max_length=2,
-        choices=ROLE,
+        choices=TYPE,
         default=GOAL,
     )
 

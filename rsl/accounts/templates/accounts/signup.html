@@ -1,7 +1,11 @@
-<form method="post" action="{% url 'signup' %}">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Sign up">
-</form>
+{% extends "base.html" %}
 
-<p>¿Ya tienes cuenta?: <a href="{% url 'login' %}">Inicia sesión</a></p>
+{% block content %}
+  <form method="post" action="{% url 'signup' %}">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Sign up">
+  </form>
+  
+  <p>¿Ya tienes cuenta?: <a href="{% url 'login' %}">Inicia sesión</a></p>
+{% endblock  %}

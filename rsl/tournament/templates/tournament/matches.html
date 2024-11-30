@@ -10,4 +10,9 @@
           </div>
         {% endfor %}
     {% endif %}
+    {% if user.is_superuser %}
+      <div class="text-center mt-3">
+        <a href="{% url 'tournament:add-match' %}" class="btn btn-primary btn-sm">Añadir partido</a>
+      </div>
+    {% endif %}
 {% endblock  %}

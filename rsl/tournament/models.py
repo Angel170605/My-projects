@@ -20,8 +20,8 @@ class Team(models.Model):
 class Match(models.Model):
     local = models.ForeignKey(Team, related_name='local_matches', on_delete=models.CASCADE)
     away = models.ForeignKey(Team, related_name='away_matches', on_delete=models.CASCADE)
-    local_goals = models.SmallIntegerField(null=True, blank=True)
-    away_goals = models.SmallIntegerField(null=True, blank=True)
+    local_goals = models.SmallIntegerField(default=0)
+    away_goals = models.SmallIntegerField(default=0)
     date = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -67,6 +67,23 @@ class Event(models.Model):
             case 'RC':
                 emote = '🟥'
         return f'{emote} {self.player.user.first_name} {self.minute}\''
+    
+    def save(self, *args, **kwargs):
+            if self.type == 'GL':
+                self.player.goals += 1
+                self.second_player.assists += 1
+                if self.player.team == self.game.local:
+                    self.game.local_goals += 1
+                elif self.player.team == self.game.away:
+                    self.game.away_goals += 1
+            elif self.type == 'YC':
+                self.player.yellow_cards += 1
+            elif self.type == 'RC':
+                self.player.red_cards += 1
+            self.second_player.save(update_fields=['assists'])
+            self.player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
+            self.game.save(update_fields=['local_goals', 'away_goals'])
+            super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['minute']

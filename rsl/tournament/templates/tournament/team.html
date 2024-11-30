@@ -2,34 +2,47 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-4 text-center">
+<div class="container mt-4 text-center mb-5">  <!-- Añadido mb-5 para margen inferior -->
   <h1 class="display-4">{{ team.name }}</h1>
   <img src="{{ team.shield.url }}" alt="{{ team.name }}" class="img-fluid mb-4 fixed-size">
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Jugador</th>
-        <th>Partidos jugados</th>
-        <th>Goles</th>
-        <th>Asistencias</th>
-        <th>Tarjetas Amarillas</th>
-        <th>Tarjetas Rojas</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for player in players %}
-      <tr>
-        <td>{{ player.user.first_name }}</td>
-        <td>{{ player.played }}</td>
-        <td>{{ player.goals }}</td>
-        <td>{{ player.assists }}</td>
-        <td>{{ player.yellow_cards }}</td>
-        <td>{{ player.red_cards }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  {% if matches %}
+    <h2 class="lead text-center">Partidos</h2>
+    {% for match in matches %}
+      {% include "match.html" %}
+      <div class="text-center mt-3">
+        <a href="{% url 'tournament:match-info' match.id %}" class="btn btn-primary btn-sm">Detalles</a>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if players %}
+    <h2 class="lead text-center">Jugadores</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Jugador</th>
+          <th>Partidos jugados</th>
+          <th>Goles</th>
+          <th>Asistencias</th>
+          <th>Tarjetas Amarillas</th>
+          <th>Tarjetas Rojas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in players %}
+        <tr>
+          <td>{{ player.user.first_name }}</td>
+          <td>{{ player.played }}</td>
+          <td>{{ player.goals }}</td>
+          <td>{{ player.assists }}</td>
+          <td>{{ player.yellow_cards }}</td>
+          <td>{{ player.red_cards }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
 
   {% if user.is_superuser %}
     <details class="mt-4">

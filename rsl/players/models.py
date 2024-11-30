@@ -5,7 +5,7 @@ from django.db import models
 class Player(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     team = models.ForeignKey('tournament.Team', related_name='players', null=True, on_delete=models.CASCADE)
-    number = models.SmallIntegerField(blank=True, unique=True, default=00)
+    number = models.SmallIntegerField(blank=True, default=00)
 
     GOALKEEPER = 'GK'
     DEFENDER = 'DF'

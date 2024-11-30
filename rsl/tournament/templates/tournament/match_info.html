@@ -20,4 +20,9 @@
           {% endfor %}
       </div>
   </div>
+  {% if user.is_superuser %}
+    <div class="text-center mt-3">
+      <a href="{% url 'tournament:add-event' match.id %}" class="btn btn-primary btn-sm">Añadir evento</a>
+    </div>
+  {% endif %}
 {% endblock %}

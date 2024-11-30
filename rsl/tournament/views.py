@@ -5,13 +5,16 @@ from django.shortcuts import redirect, render
 from players.models import Player
 from tournament.models import Match, Team, Event
 
-from .forms import AddTeamForm, EditTeamForm, SignPlayerForm, PlayerStatsForm
+from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
 
 
 def main(request):
+    return render(request, 'tournament/main.html')
+
+def matches(request):
     matches = Match.objects.all()
     teams = Team.objects.all()
-    return render(request, 'tournament/main.html', {'matches': matches, 'teams': teams})
+    return render(request, 'tournament/matches.html', {'matches': matches, 'teams': teams})
 
 
 def info(request):
@@ -67,8 +70,7 @@ def sign_player(request, team_id, user_id):
     team = Team.objects.get(id=team_id)
     user = User.objects.get(id=user_id)
     if request.method == 'POST':
-        form = SignPlayerForm(request.POST)
-        if form.is_valid():
+        if (form := SignPlayerForm(request.POST)).is_valid():
             player = form.save(commit=False)
             player.user = user
             player.team = team
@@ -82,13 +84,3 @@ def match_info(request, match_id):
     match = Match.objects.get(id=match_id)
     events = Event.objects.filter(game=match)
     return render(request, 'tournament/match_info.html', {'match': match, 'events': events})
-
-def edit_player_stats(request, user_id, team_id):
-    player = Player.objects.get(user=user_id)
-    if request.method == 'POST':
-        if (form := PlayerStatsForm(request.POST, instance=player)).is_valid():
-            player = form.save()
-            return redirect('tournament:team-info', team_id)
-    else:
-        form = PlayerStatsForm()
-    return render(request, 'tournament/form.html', {'form': form, 'player':player})

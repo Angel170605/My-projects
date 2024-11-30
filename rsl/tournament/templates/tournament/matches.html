@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if matches %}
+        <h2 class="lead text-center">Partidos</h2>
+        {% for match in matches %}
+          {% include "match.html" %}
+          <div class="text-center mt-3">
+            <a href="{% url 'tournament:match-info' match.id %}" class="btn btn-primary btn-sm">Detalles</a>
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endblock  %}

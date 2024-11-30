@@ -10,3 +10,8 @@ details summary::-webkit-details-marker {
 details summary {
   outline: none;
 }
+
+.no-background {
+  background-color: transparent !important;
+  border: none !important;
+}

@@ -36,7 +36,7 @@ class Event(models.Model):
     minute = models.SmallIntegerField(default=00)
     player = models.ForeignKey('players.Player', related_name='events', on_delete=models.CASCADE)
     second_player = models.ForeignKey(
-        'players.Player', related_name='sp_events', on_delete=models.CASCADE, blank=True
+        'players.Player', related_name='sp_events', on_delete=models.CASCADE, blank=True, null=True
     )
 
     GOAL = 'GL'
@@ -57,7 +57,16 @@ class Event(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.player.user.first_name} {self.type} {self.minute}'
+        match self.type:
+            case 'CG':
+                return f'{self.player.user.first_name} ↕️ {self.second_player.user.first_name} {self.minute}\''
+            case 'GL':
+                emote = '⚽️'
+            case 'YC':
+                emote = '🟨'
+            case 'RC':
+                emote = '🟥'
+        return f'{emote} {self.player.user.first_name} {self.minute}\''
 
     class Meta:
         ordering = ['minute']

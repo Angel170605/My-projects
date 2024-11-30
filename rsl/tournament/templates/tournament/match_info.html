@@ -1,8 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% include "match.html" %}
-  {% for event in events %}
-    <p>{{ event }}</p>
-  {% endfor %}
-{% endblock  %}
+  {% include "match.html" %}  <!-- Incluye la plantilla del partido -->
+
+  <div class="container mt-4">
+      <div class="row">
+          {% for event in events %}
+              <div class="col-12">
+                  {% if event.player.team == match.local %}
+                      <div class="alert alert-primary no-background text-start mx-auto w-75" role="alert">
+                          {{ event }}
+                      </div>
+                  {% else %}
+                      <div class="alert alert-secondary no-background text-end mx-auto w-75" role="alert">
+                          {{ event }}
+                      </div>
+                  {% endif %}
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+{% endblock %}

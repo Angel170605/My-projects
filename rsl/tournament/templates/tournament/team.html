@@ -15,7 +15,6 @@
         <th>Asistencias</th>
         <th>Tarjetas Amarillas</th>
         <th>Tarjetas Rojas</th>
-        <th>Editar Stats</th>
       </tr>
     </thead>
     <tbody>
@@ -27,7 +26,6 @@
         <td>{{ player.assists }}</td>
         <td>{{ player.yellow_cards }}</td>
         <td>{{ player.red_cards }}</td>
-        <td><a href="{% url "tournament:edit-player-stats" user.id team.id %}">Editar stats</a></td>
       </tr>
       {% endfor %}
     </tbody>

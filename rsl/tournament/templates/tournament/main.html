@@ -1,8 +1,60 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5">
   <h1 class="display-4 text-center">Summer League</h1>
-  <p class="lead text-center">Te damos la bienvenida a la página web oficial de la Summer League. Aquí podrás ver la información del torneo, equipos, jugadores, partidos, resultados, estadísticas y más; así como unirte a la competición.</p>
+  <p class="lead text-center">Te damos la bienvenida a la página web oficial de la Summer League. Este torneo reúne a equipos de toda la región para competir por un premio significativo.</p>
+  
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h2 class="h4">Descripción del Torneo</h2>
+      <p>La Summer League es un torneo de fútbol que sigue un formato similar al de la Champions League, con 12 equipos iniciales. Cada equipo está compuesto por 5 jugadores titulares y 3 suplentes, lo que permite una gran rotación y estrategia durante los partidos. Los equipos se dividen en 4 grupos de 3, y los dos mejores de cada grupo avanzan a los cuartos de final, donde se jugarán partidos eliminatorios a partido único.</p>
+      <p>Los partidos se llevarán a cabo en dos polideportivos: La Vera y El Mocán. Con una duración de 35 minutos, divididos en dos partes de 15 minutos y un descanso de 5, cada partido se desarrollará en un ambiente competitivo.</p>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h2 class="h4">Formato del Torneo</h2>
+      <p>Los partidos se jugarán en un formato de liga, seguido de eliminatorias, lo que garantiza que cada equipo tenga la oportunidad de demostrar su valía en el campo.</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="h4">Requisitos para Participar</h2>
+      <ul>
+        <li>Tener 16 años o más.</li>
+        <li>Formar parte de un equipo.</li>
+        <li>Pago de 3€ para subvencionar el premio y costos adicionales.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h2 class="h4">Sedes de los Partidos</h2>
+      <p>Los partidos se jugarán principalmente en El Mocán, aunque también se utilizará el polideportivo de La Vera, proporcionando un entorno diverso para los jugadores y aficionados.</p>
+    </div>
+  </div>
+
+  <div class="text-center mt-5">
+    <h2 class="h4">Premio</h2>
+    <p>El equipo ganador se llevará 5 entradas para el Karting Club, un incentivo atractivo para los participantes.</p>
+    
+    <div class="d-flex justify-content-center mt-4">
+      <img src="{% static 'img/vera.png' %}" class="img-fluid mx-2" style="max-width: 200px;" alt="Polideportivo La Vera">
+      <img src="{% static 'img/mocan.png' %}" class="img-fluid mx-2" style="max-width: 200px;" alt="Polideportivo El Mocán">
+    </div>
+
+    <div class="mt-4">
+      <img src="{% static 'img/karting.png' %}" class="img-fluid" alt="Premio Karting Club">
+    </div>
+  </div>
+
+  <div class="text-center mt-5">
+    <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">¡Únete a la Competición!</a>
+  </div>
 </div>
+
+<div style="margin-bottom: 50px;"></div> 
+
 {% endblock %}

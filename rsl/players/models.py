@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+from tournament.models import Team
 
 class Player(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -34,6 +35,10 @@ class Player(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}, #{self.number}'
+    
+    def save(self, *args, **kwargs):
+        self.played == len(Team.objects.filter(local=self.team)) + len(Team.objects.filter(away=self.team))
+        super().save(*args, **kwargs)
     
     class Meta:
         ordering = ['team', 'position', 'number']

@@ -7,32 +7,12 @@ class Game(models.Model):
     local_goals = models.SmallIntegerField(default=0)
     away_goals = models.SmallIntegerField(default=0)
     date = models.DateField(blank=True, null=True)
-    played = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['date']
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.played:
-            for local_player in Player.objects.filter(team=self.local) :
-                local_player.played += 1
-                local_player.save(update_fields=['played'])
-            for away_player in Player.objects.filter(team=self.away):
-                away_player.played += 1
-                away_player.save(update_fields=['played'])
-
-    def delete(self, *args, **kwargs):
-        for local_player in Player.objects.filter(team=self.local) :
-            local_player.played -= 1
-            local_player.save(update_fields=['played'])
-        for away_player in Player.objects.filter(team=self.away):
-            away_player.played -= 1
-            away_player.save(update_fields=['played'])
-        super().delete(*args, **kwargs)
 
 
 class Event(models.Model):
@@ -77,8 +57,6 @@ class Event(models.Model):
         return f'{emote} {self.player.user.first_name} {self.minute}\''
 
     def save(self, *args, **kwargs):
-        if not self.game.played:
-            self.game.played == True
         match self.type:
             case 'GL':
                 self.player.goals += 1
@@ -103,7 +81,6 @@ class Event(models.Model):
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
         match self.type:
             case 'GL':
                 self.player.goals -= 1
@@ -125,6 +102,7 @@ class Event(models.Model):
                 self.player.red_cards -= 1
         self.player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
         self.game.save(update_fields=['local_goals', 'away_goals'])
+        super().delete(*args, **kwargs)
 
     class Meta:
         ordering = ['minute']

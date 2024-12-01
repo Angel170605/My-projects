@@ -14,10 +14,13 @@
           <a class="nav-link" href="{% url 'tournament:main' %}">Principal</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'games:games' %}">Partidos</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'tournament:teams' %}">Equipos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'games:games' %}">Partidos</a>
+          <a class="nav-link" href="{% url 'players:player-list' %}">Jugadores</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'tournament:info' %}">Preguntas frecuentes</a>

@@ -1,9 +1,24 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
-from tournament.models import Team
 
-from .forms import SignPlayerForm
+from tournament.models import Team
+from players.models import Player
+
+from .forms import SignPlayerForm, EditPlayerForm
+
+from .funcs import get_player_age
+
+def player_list(request):
+    players = Player.objects.all()
+    return render(request, 'players/player_list.html', {'players': players })
+
+
+def player_info(request, player_id):
+    player = Player.objects.get(id=player_id)
+    age = get_player_age(player.birthdate)
+    return render(request, 'players/player.html', {'player': player, 'age': age})
+
 
 def sign_player(request, team_id, user_id):
     if not request.user.is_superuser:
@@ -20,3 +35,23 @@ def sign_player(request, team_id, user_id):
     else:
         form = SignPlayerForm()
     return render(request, 'players/form.html', {'form': form, 'team': team, 'user': user})
+
+
+def edit_player(request, player_id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+    player = Player.objects.get(id=player_id)
+    if request.method == 'POST':
+        if (form := EditPlayerForm(request.POST, instance=player)).is_valid():
+            p = form.save(commit=False)
+            p.save()
+            return redirect('players:players')
+    else:
+        form = SignPlayerForm(instance=player)
+    return render(request, 'players/form.html', {'form': form})
+
+
+def delete_player(request, player_id):
+    player = Player.objects.get(id=player_id)
+    player.delete()
+    return redirect('players:player-list')

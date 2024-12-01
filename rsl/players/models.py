@@ -5,6 +5,8 @@ from django.db import models
 class Player(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     team = models.ForeignKey('tournament.Team', related_name='players', null=True, on_delete=models.CASCADE)
+    birthdate = models.DateField(blank=True, null=True)
+    country = models.CharField(max_length=20, default='🇪🇸')
     number = models.SmallIntegerField(blank=True, default=00)
 
     GOALKEEPER = 'GK'
@@ -31,7 +33,7 @@ class Player(models.Model):
     red_cards = models.SmallIntegerField(default=0)
 
     def __str__(self):
-        return f'{self.user}, {self.position}, #{self.number}'
+        return f'{self.user.first_name} {self.user.last_name}, #{self.number}'
     
     class Meta:
         ordering = ['team', 'position', 'number']

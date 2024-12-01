@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if players %}
+<h2 class="lead text-center">Jugadores</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Equipo</th>
+      <th>Número</th>
+      <th>Jugador</th>
+      <th>Posición</th>
+      <th><p>Stats</p></th>
+      {% if user.is_superuser %}
+        <th>Gestionar</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for player in players %}
+    <tr>
+      <td>
+        <a href="{% url 'tournament:team-info' player.team.id %}">
+          <img src="{{ player.team.shield.url }}" class="img-thumbnail" style="max-width: 50px; max-height: 50px;" alt="Escudo de {{ player.team.name }}">
+        </a>
+      </td>
+      <td>{{ player.number }}</td>
+      <td>{{ player.user.first_name }}</td>
+      <td>{{ player.position }}</td>
+      <td><a href={% url "players:player-info" player.id %} class="btn btn-primary btn-sm ml-2" >Stats</a></td>
+      {% if user.is_superuser %}
+        <td><a href={% url "players:edit-player" player.id %} class="btn btn-primary btn-sm ml-2" >Editar</a>  <a href={% url "players:delete-player" player.id %} class="btn btn-primary btn-sm ml-2" >Eliminar</a></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

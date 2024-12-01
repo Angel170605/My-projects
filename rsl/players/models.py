@@ -32,3 +32,6 @@ class Player(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.position}, #{self.number}'
+    
+    class Meta:
+        ordering = ['position']

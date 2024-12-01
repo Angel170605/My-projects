@@ -6,7 +6,7 @@ from django.db.models import Q
 from players.models import Player
 from tournament.models import Match, Team, Event
 
-from .forms import AddTeamForm, EditTeamForm, SignPlayerForm, AddMatchForm, AddEventForm
+from .forms import AddTeamForm, EditTeamForm, SignPlayerForm, AddMatchForm, EditMatchForm, AddEventForm
 
 
 def main(request):
@@ -95,7 +95,7 @@ def add_match(request):
     else:
         form = AddMatchForm()
     return render(request, 'tournament/form.html', {'form': form})
-    
+
     
 def add_event(request, match_id):
     game = Match.objects.get(id=match_id)
@@ -108,4 +108,6 @@ def add_event(request, match_id):
     else:
             form = AddEventForm()
     return render(request, 'tournament/form.html', {'form': form, 'game': game})
+
+
 

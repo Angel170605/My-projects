@@ -36,6 +36,14 @@ class AddMatchForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
 
+class EditMatchForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ('local', 'away', 'local_goals', 'away_goals', 'date',)
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
 class AddEventForm(forms.ModelForm):
     class Meta:
         model = Event

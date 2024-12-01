@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from players.models import Player
 
 
 class Team(models.Model):
@@ -29,6 +30,14 @@ class Match(models.Model):
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'
+    
+    def save(self, *args, **kwargs):
+        for local_player, away_player in zip(Player.objects.filter(team=self.local), Player.objects.filter(team=self.away)):
+            local_player.played += 1
+            away_player.played += 1
+            local_player.save(update_fields=['played'])
+            away_player.save(update_fields=['played'])
+        super().save(*args, **kwargs)
 
 
 class Event(models.Model):
@@ -40,11 +49,13 @@ class Event(models.Model):
     )
 
     GOAL = 'GL'
+    OWN_GOAL = 'OG'
     CHANGE = 'CG'
     YELLOW_CARD = 'YC'
     RED_CARD = 'RC'
     TYPE = {
         GOAL: 'Gol',
+        OWN_GOAL: 'Autogol',
         CHANGE: 'Cambio',
         YELLOW_CARD: 'Tarjeta Amarilla',
         RED_CARD: 'Tarjeta Roja',
@@ -62,6 +73,8 @@ class Event(models.Model):
                 return f'{self.player.user.first_name} ↕️ {self.second_player.user.first_name} {self.minute}\''
             case 'GL':
                 emote = '⚽️'
+            case 'OG':
+                emote = '⚽️ (PP)'
             case 'YC':
                 emote = '🟨'
             case 'RC':
@@ -72,15 +85,20 @@ class Event(models.Model):
             if self.type == 'GL':
                 self.player.goals += 1
                 self.second_player.assists += 1
+                self.second_player.save(update_fields=['assists'])
                 if self.player.team == self.game.local:
                     self.game.local_goals += 1
                 elif self.player.team == self.game.away:
                     self.game.away_goals += 1
+            if self.type == 'OG':
+                if self.player.team == self.game.local:
+                    self.game.away_goals += 1
+                elif self.player.team == self.game.away:
+                    self.game.local_goals += 1
             elif self.type == 'YC':
                 self.player.yellow_cards += 1
             elif self.type == 'RC':
                 self.player.red_cards += 1
-            self.second_player.save(update_fields=['assists'])
             self.player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
             self.game.save(update_fields=['local_goals', 'away_goals'])
             super().save(*args, **kwargs)

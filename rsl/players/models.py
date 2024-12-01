@@ -34,4 +34,4 @@ class Player(models.Model):
         return f'{self.user}, {self.position}, #{self.number}'
     
     class Meta:
-        ordering = ['position']
+        ordering = ['team', 'position', 'number']

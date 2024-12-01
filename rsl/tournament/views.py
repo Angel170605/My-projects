@@ -4,9 +4,10 @@ from django.shortcuts import redirect, render
 from django.db.models import Q
 
 from players.models import Player
-from tournament.models import Match, Team, Event
+from tournament.models import Team
+from games.models import Game
 
-from .forms import AddTeamForm, EditTeamForm, SignPlayerForm, AddMatchForm, EditMatchForm, AddEventForm
+from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
 
 
 def main(request):
@@ -26,20 +27,10 @@ def team_info(request, team_id):
     team = Team.objects.get(id=team_id)
     users = User.objects.all()
     players = Player.objects.filter(team=team)
-    matches = Match.objects.filter(Q(local=team) | Q(away=team))
+    games = Game.objects.filter(Q(local=team) | Q(away=team))
     return render(
-        request, 'tournament/team.html', {'team': team, 'users': users, 'players': players, 'matches': matches}
+        request, 'tournament/team.html', {'team': team, 'users': users, 'players': players, 'games': games}
     )
-
-def matches(request):
-    matches = Match.objects.all()
-    teams = Team.objects.all()
-    return render(request, 'tournament/matches.html', {'matches': matches, 'teams': teams})
-
-def match_info(request, match_id):
-    match = Match.objects.get(id=match_id)
-    events = Event.objects.filter(game=match)
-    return render(request, 'tournament/match_info.html', {'match': match, 'events': events})
 
 def add_team(request):
     if not request.user.is_superuser:
@@ -85,29 +76,6 @@ def sign_player(request, team_id, user_id):
     else:
         form = SignPlayerForm()
     return render(request, 'tournament/form.html', {'form': form, 'team': team, 'user': user})
-
-def add_match(request):
-    if request.method == 'POST':
-        if (form := AddMatchForm(request.POST)).is_valid():
-            game = form.save(commit=False)
-            game.save()
-            return redirect('tournament:matches')
-    else:
-        form = AddMatchForm()
-    return render(request, 'tournament/form.html', {'form': form})
-
-    
-def add_event(request, match_id):
-    game = Match.objects.get(id=match_id)
-    if request.method == 'POST':
-        if (form := AddEventForm(request.POST)).is_valid():
-            event = form.save(commit=False)
-            event.game = game
-            event.save()
-            return redirect('tournament:match-info', match_id)
-    else:
-            form = AddEventForm()
-    return render(request, 'tournament/form.html', {'form': form, 'game': game})
 
 
 

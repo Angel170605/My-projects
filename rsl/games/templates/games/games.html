@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if games %}
+        <h2 class="lead text-center">Partidos</h2>
+        {% for game in games %}
+          {% include "game.html" %}
+          <div class="text-center mt-3">
+            <a href="{% url 'games:game-info' game.id %}" class="btn btn-primary btn-sm">Detalles</a>
+            <a href="{% url 'games:edit-game' game.id %}" class="btn btn-primary btn-sm">Editar</a>
+            <a href="{% url 'games:delete-game' game.id %}" class="btn btn-primary btn-sm">Eliminar</a>
+          </div>
+        {% endfor %}
+    {% endif %}
+    {% if user.is_superuser %}
+      <div class="text-center mt-3">
+        <a href="{% url 'games:add-game' %}" class="btn btn-primary btn-sm">Añadir partido</a>
+      </div>
+    {% endif %}
+{% endblock  %}

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.1.96', 'localhost', '127.0.0.1', '10.109.16.20']
 # Application definition
 
 INSTALLED_APPS = [
+    'games.apps.GamesConfig',
     'players.apps.PlayersConfig',
     'tournament.apps.TournamentConfig',
     'accounts.apps.AccountsConfig',

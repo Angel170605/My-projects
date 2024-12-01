@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Team, Match, Event
+from .models import Team
 from players.models import Player
 
 
@@ -27,24 +27,3 @@ class SignPlayerForm(forms.ModelForm):
     class Meta:
         model = Player
         fields = ('number', 'position')
-
-class AddMatchForm(forms.ModelForm):
-    class Meta:
-        model = Match
-        fields = ('local', 'away', 'local_goals', 'away_goals', 'date',)
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-        }
-
-class EditMatchForm(forms.ModelForm):
-    class Meta:
-        model = Match
-        fields = ('local', 'away', 'local_goals', 'away_goals', 'date',)
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-        }
-
-class AddEventForm(forms.ModelForm):
-    class Meta:
-        model = Event
-        fields = ('type', 'minute', 'player', 'second_player',)

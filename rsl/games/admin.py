@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Game, Event
 
-# Register your models here.
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+    list_display = ['local', 'away', 'local_goals', 'away_goals']
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ['game', 'minute', 'player', 'second_player', 'type']

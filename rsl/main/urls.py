@@ -27,6 +27,8 @@ urlpatterns = [
     path('', lambda _: redirect('tournament:main')),
     path('admin/', admin.site.urls),
     path('summer-league/', include('tournament.urls')),
+    path('games/', include('games.urls')),
+    path('players/', include('players.urls')),
     path('login/', accounts.views.user_login, name='login'),
     path('logout/', accounts.views.user_logout, name='logout'),
     path('signup/', accounts.views.user_signup, name='signup'),

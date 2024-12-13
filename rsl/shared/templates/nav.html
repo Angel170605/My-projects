@@ -1,41 +1,47 @@
 {% load static %}
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <button class="btn rounded-fill"><i class="bi bi-moon-fill"></i></button>  
-    <a class="navbar-brand" href="{% url 'tournament:main' %}">
-      <img src={% static 'img/brand.png' %} alt="RSL" width="30" height="30">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tournament:main' %}">Principal</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'games:games' %}">Partidos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tournament:teams' %}">Equipos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'players:player-list' %}">Jugadores</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tournament:info' %}">Preguntas frecuentes</a>
-        </li>
-      </ul>
-      {% if user.is_authenticated %}
-        <a class="btn btn-outline-primary ms-auto" href="{% url 'logout' %}" role="button">
-          <i class="bi bi-box-arrow-in-right"></i> Cerrar Sesión
-        </a>
-      {% else %}
-        <a class="btn btn-outline-primary ms-auto" href="{% url 'login' %}" role="button">
-          <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-        </a>
-      {% endif %}
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'tournament:main' %}">
+        <img src={% static 'img/brand.png' %} alt="RSL" width="30" height="30">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <button onclick="changeTheme()" class="btn rounded-fill"><i id="d1-icon" class="bi bi-moon-fill"></i></button>  
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'tournament:main' %}">Principal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'games:games' %}">Partidos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'tournament:teams' %}">Equipos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'players:player-list' %}">Jugadores</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'tournament:info' %}">Preguntas frecuentes</a>
+          </li>
+        </ul>
+        {% if user.is_authenticated %}
+          <a class="btn btn-outline-primary ms-auto" href="{% url 'logout' %}" role="button">
+            <i class="bi bi-box-arrow-in-right"></i> Cerrar Sesión
+          </a>
+        {% else %}
+          <a class="btn btn-outline-primary ms-auto" href="{% url 'login' %}" role="button">
+            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+          </a>
+        {% endif %}
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>

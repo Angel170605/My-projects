@@ -36,9 +36,5 @@ class Player(models.Model):
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}, #{self.number}'
     
-    def save(self, *args, **kwargs):
-        self.played == len(Team.objects.filter(local=self.team)) + len(Team.objects.filter(away=self.team))
-        super().save(*args, **kwargs)
-    
     class Meta:
         ordering = ['team', 'position', 'number']

@@ -45,22 +45,34 @@
   {% endif %}
 
   {% if user.is_superuser %}
-    <details class="mt-4">
-      <summary class="btn btn-outline-primary btn-sm" style="cursor: pointer; list-style: none;">
-        Fichar
-      </summary>
-      <div class="mt-2">
-        {% for user in users %}
-          {% if not user.player %}
-            <div class="mb-2">
-              <span><p>{{ user.first_name }} {{ user.last_name}}</p></span>
-              <a href="{% url 'players:sign-player' team.id user.id %}" class="btn btn-primary btn-sm ml-2">Fichar</a>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </details>  
-  {% endif %}
+  <details class="mt-4">
+    <summary class="btn btn-outline-primary btn-sm" style="cursor: pointer; list-style: none;">
+      Fichar
+    </summary>
+    <div class="mt-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            {% if not user.player and not user.is_superuser%}
+              <tr>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>
+                  <a href="{% url 'players:sign-player' team.id user.id %}" class="btn btn-primary btn-sm">Fichar</a>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>  
+{% endif %}
 </div>
 
 {% endblock %}

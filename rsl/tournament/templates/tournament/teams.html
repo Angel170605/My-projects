@@ -8,13 +8,15 @@
       <div class="col-md-4 mb-4">
         <div class="card h-100">
           <img src="{{ team.shield.url }}" class="card-img-top" alt="{{ team.name }}">
-          <div class="card-body">
+          <div class="card-body text-center">
             <h5 class="card-title">{{ team.name }}</h5>
-            <a href="{% url 'tournament:team-info' team.id %}" class="btn btn-primary">Ver Info del Equipo</a>
-            {% if user.is_superuser %}
-              <a href="{% url 'tournament:edit-team' team.id %}" class="btn btn-primary">Editar</a>
-              <a href="{% url 'tournament:delete-team' team.id %}" class="btn btn-primary">Eliminar</a>
-            {% endif %}
+            <div class="d-flex justify-content-center">
+              <a href="{% url 'tournament:team-info' team.id %}" class="text-decoration-none mx-2"> <i class="bi bi-info-circle-fill"></i></a>
+              {% if user.is_superuser %}
+                <a href="{% url 'tournament:edit-team' team.id %}" class="text-decoration-none mx-2"> <i class="bi bi-pencil-fill text-warning"></i></a>
+                <a href="{% url 'tournament:delete-team' team.id %}" class="text-decoration-none mx-2"> <i class="bi bi-trash-fill text-danger"></i></a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
@@ -23,9 +25,11 @@
       <div class="col-md-4 mb-4">
         <div class="card h-100">
           <img src="{% static 'img/add.png' %}" class="card-img-top" alt="Añadir equipo">
-          <div class="card-body">
+          <div class="card-body text-center">
             <h5 class="card-title">Añadir equipo</h5>
-            <a href="{% url 'tournament:add-team' %}" class="btn btn-primary">Añadir equipo</a>
+            <div class="d-flex justify-content-center">
+              <a href="{% url 'tournament:add-team' %}" class="text-decoration-none"> <i class="bi bi-plus-circle-fill"></i></a>
+            </div>
           </div>
         </div>
       </div>

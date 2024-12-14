@@ -6,16 +6,6 @@
   <h1 class="display-4">{{ team.name }}</h1>
   <img src="{{ team.shield.url }}" alt="{{ team.name }}" class="img-fluid mb-4 fixed-size">
 
-  {% if games %}
-    <h2 class="lead text-center">Partidos</h2>
-    {% for game in games %}
-      {% include "game.html" %}
-      <div class="text-center mt-3">
-        <a href="{% url 'games:game-info' game.id %}" class="btn btn-primary btn-sm">Detalles</a>
-      </div>
-    {% endfor %}
-  {% endif %}
-
   {% if players %}
     <h2 class="lead text-center">Jugadores</h2>
     <table class="table table-striped">
@@ -44,6 +34,13 @@
     </table>
   {% endif %}
 
+  {% if games %}
+    <h2 class="lead text-center mt-4">Partidos</h2> <!-- Añadido mt-4 para margen superior -->
+    {% for game in games %}
+      {% include "game.html" %}
+    {% endfor %}
+  {% endif %}
+
   {% if user.is_superuser %}
   <details class="mt-4">
     <summary class="btn btn-outline-primary btn-sm" style="cursor: pointer; list-style: none;">
@@ -59,7 +56,7 @@
         </thead>
         <tbody>
           {% for user in users %}
-            {% if not user.player and not user.is_superuser%}
+            {% if not user.player and not user.is_superuser %}
               <tr>
                 <td>{{ user.first_name }} {{ user.last_name }}</td>
                 <td>
@@ -72,7 +69,7 @@
       </table>
     </div>
   </details>  
-{% endif %}
+  {% endif %}
 </div>
 
 {% endblock %}

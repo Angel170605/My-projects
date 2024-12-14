@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.db.models import Q
 
@@ -8,6 +7,7 @@ from tournament.models import Team
 from games.models import Game
 
 from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
+from shared.funcs import admin_required
 
 
 def main(request):
@@ -32,9 +32,8 @@ def team_info(request, team_id):
         request, 'tournament/team.html', {'team': team, 'users': users, 'players': players, 'games': games}
     )
 
+@admin_required
 def add_team(request):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
     if request.method == 'GET':
         form = AddTeamForm()
     else:
@@ -43,11 +42,9 @@ def add_team(request):
             return redirect('tournament:teams')
     return render(request, 'tournament/form.html', {'form': form})
 
-
+@admin_required
 def edit_team(request, team_id):
     team = Team.objects.get(id=team_id)
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
     if request.method == 'GET':
         form = EditTeamForm(instance=team)
     else:
@@ -56,26 +53,8 @@ def edit_team(request, team_id):
             return redirect('tournament:teams')
     return render(request, 'tournament/form.html', {'team': team, 'form': form})
 
-
+@admin_required
 def delete_team(request, team_id):
     team = Team.objects.get(id=team_id)
     team.delete()
     return redirect('tournament:teams')
-
-
-def sign_player(request, team_id, user_id):
-    team = Team.objects.get(id=team_id)
-    user = User.objects.get(id=user_id)
-    if request.method == 'POST':
-        if (form := SignPlayerForm(request.POST)).is_valid():
-            player = form.save(commit=False)
-            player.user = user
-            player.team = team
-            player.save()
-            return redirect('tournament:team-info', team_id)
-    else:
-        form = SignPlayerForm()
-    return render(request, 'tournament/form.html', {'form': form, 'team': team, 'user': user})
-
-
-

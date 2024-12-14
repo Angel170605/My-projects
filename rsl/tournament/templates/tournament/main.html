@@ -3,57 +3,61 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="display-4 text-center">Summer League</h1>
-  <p class="lead text-center">Te damos la bienvenida a la página web oficial de la Summer League. Este torneo reúne a equipos de toda la región para competir por un premio significativo.</p>
-  
+  <div class="text-center mb-4">
+    <img src="{% static 'img/brand.png' %}" class="img-fluid" alt="Logo de la Summer League" style="max-width: 300px;">
+    <h1 class="display-4">Realejos Summer League</h1>
+  </div>
+
   <div class="row mt-5">
     <div class="col-md-12">
-      <h2 class="h4">Descripción del Torneo</h2>
-      <p>La Summer League es un torneo de fútbol que sigue un formato similar al de la Champions League, con 12 equipos iniciales. Cada equipo está compuesto por 5 jugadores titulares y 3 suplentes, lo que permite una gran rotación y estrategia durante los partidos. Los equipos se dividen en 4 grupos de 3, y los dos mejores de cada grupo avanzan a los cuartos de final, donde se jugarán partidos eliminatorios a partido único.</p>
-      <p>Los partidos se llevarán a cabo en dos polideportivos: La Vera y El Mocán. Con una duración de 35 minutos, divididos en dos partes de 15 minutos y un descanso de 5, cada partido se desarrollará en un ambiente competitivo.</p>
+      <h4 class="h4">Descripción del Torneo</h4>
+      <p>La Realejos Summer League es un torneo de fútbol sala creado por y para futboleros. Se disputará en verano de 2025 en los polideportivos de El Mocán y La Vera, ubicados en Los Realejos, Tenerife. Este torneo contará con la participación de 12 equipos, cada uno compuesto por 5 jugadores titulares y la opción de incluir hasta 3 jugadores adicionales.</p>
+      <p>El formato del torneo será similar al de la Champions League actual, comenzando con una fase de grupos donde cada equipo jugará dos partidos. Los 8 mejores equipos de la clasificación avanzarán a los cuartos de final. La puntuación será de 3 puntos por victoria, 1 punto por empate y 0 puntos por derrota. En caso de empate en la clasificación, se aplicará el criterio de diferencia de goles para determinar la posición final.</p>
     </div>
   </div>
 
   <div class="row mt-5">
-    <div class="col-md-6">
-      <h2 class="h4">Formato del Torneo</h2>
-      <p>Los partidos se jugarán en un formato de liga, seguido de eliminatorias, lo que garantiza que cada equipo tenga la oportunidad de demostrar su valía en el campo.</p>
+    <div class="col-md-12">
+      <h4 class="h4">Partidos</h4>
+      <p>Los partidos tendrán una duración de 30 minutos, divididos en dos partes de 15 minutos cada una. Se aplicarán las normas del futsal, lo que significa que no habrá fueras de juego, no se sancionarán faltas por cesión y los saques de banda se realizarán con los pies. Este formato garantiza un juego dinámico y emocionante para todos los participantes.</p>
     </div>
-    <div class="col-md-6">
-      <h2 class="h4">Requisitos para Participar</h2>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h4 class="h4">Requisitos para Participar</h4>
+      <p>Para participar en la Realejos Summer League, los jugadores deben cumplir con los siguientes requisitos:</p>
       <ul>
         <li>Tener 16 años o más.</li>
-        <li>Formar parte de un equipo.</li>
-        <li>Pago de 3€ para subvencionar el premio y costos adicionales.</li>
+        <li>Formar parte de un equipo registrado.</li>
+        <li>Realizar un pago de 2€ por jugador para cubrir los costos del torneo.</li>
       </ul>
     </div>
   </div>
 
   <div class="row mt-5">
     <div class="col-md-12">
-      <h2 class="h4">Sedes de los Partidos</h2>
-      <p>Los partidos se jugarán principalmente en El Mocán, aunque también se utilizará el polideportivo de La Vera, proporcionando un entorno diverso para los jugadores y aficionados.</p>
+      <h4 class="h4">Sedes de los Partidos</h4>
+      <p>Los partidos se llevarán a cabo en los siguientes polideportivos:</p>
+      <div class="text-center mt-3">
+        <h5 class="h5">Polideportivo La Vera</h5>
+        <img src="{% static 'img/vera.png' %}" class="img-fluid w-100" style="max-width: 50%;" alt="Polideportivo La Vera">
+        <h5 class="h5">Polideportivo El Mocán</h5>
+        <img src="{% static 'img/mocan.png' %}" class="img-fluid w-100" style="max-width: 50%;" alt="Polideportivo El Mocán">
+      </div>
     </div>
   </div>
 
-  <div class="text-center mt-5">
-    <h2 class="h4">Premio</h2>
-    <p>El equipo ganador se llevará 5 entradas para el Karting Club, un incentivo atractivo para los participantes.</p>
-    
-    <div class="d-flex justify-content-center mt-4">
-      <img src="{% static 'img/vera.png' %}" class="img-fluid mx-2" style="max-width: 200px;" alt="Polideportivo La Vera">
-      <img src="{% static 'img/mocan.png' %}" class="img-fluid mx-2" style="max-width: 200px;" alt="Polideportivo El Mocán">
-    </div>
-
-    <div class="mt-4">
-      <img src="{% static 'img/karting.png' %}" class="img-fluid" alt="Premio Karting Club">
+  <div class="row mt-5">
+    <div class="col-md-12 text-center" style="border: 2px solid #ffcc00; padding: 20px; border-radius: 10px;">
+      <h4 class="h4" style="font-weight: bold; color: #ffcc00;">Premio</h4>
+      <p>El equipo ganador de la Realejos Summer League se llevará 5 entradas para el Karting Club, ubicado en Los Realejos, Tenerife. Este premio representa un reconocimiento al esfuerzo y la dedicación de los jugadores.</p>
+      <h5 class="h5">Karting Club</h5>
+      <div class="text-center mt-3">
+        <img src="{% static 'img/karting.png' %}" alt="Karting Club" class="img-fluid w-100" style="max-width: 50%;">
+      </div>
     </div>
   </div>
-
-  <div class="text-center mt-5">
-    <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">¡Únete a la Competición!</a>
-  </div>
-</div>
 
 <div style="margin-bottom: 50px;"></div> 
 

@@ -8,6 +8,7 @@ from players.models import Player
 from .forms import SignPlayerForm, EditPlayerForm
 
 from .funcs import get_player_age
+from shared.funcs import admin_required
 
 def player_list(request):
     players = Player.objects.all()
@@ -19,7 +20,7 @@ def player_info(request, player_id):
     age = get_player_age(player.birthdate)
     return render(request, 'players/player.html', {'player': player, 'age': age})
 
-
+@admin_required
 def sign_player(request, team_id, user_id):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
@@ -36,7 +37,7 @@ def sign_player(request, team_id, user_id):
         form = SignPlayerForm()
     return render(request, 'players/form.html', {'form': form, 'team': team, 'user': user})
 
-
+@admin_required
 def edit_player(request, player_id):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
@@ -50,7 +51,7 @@ def edit_player(request, player_id):
         form = SignPlayerForm(instance=player)
     return render(request, 'players/form.html', {'form': form})
 
-
+@admin_required
 def delete_player(request, player_id):
     player = Player.objects.get(id=player_id)
     player.delete()

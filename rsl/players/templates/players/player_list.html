@@ -10,7 +10,7 @@
       <th>Número</th>
       <th>Jugador</th>
       <th>Posición</th>
-      <th><p>Stats</p></th>
+      <th>Info</th>
       {% if user.is_superuser %}
         <th>Gestionar</th>
       {% endif %}
@@ -27,7 +27,7 @@
       <td>{{ player.number }}</td>
       <td>{{ player.user.first_name }}</td>
       <td>{{ player.position }}</td>
-      <td><a href={% url "players:player-info" player.id %} class="btn btn-primary btn-sm ml-2" >Stats</a></td>
+      <td><a href={% url "players:player-info" player.id %} class="text-decoration-none mx-2"> <i class="bi bi-info-circle-fill"></i></a></td>
       {% if user.is_superuser %}
         <td><a href={% url "players:edit-player" player.id %} class="btn btn-primary btn-sm ml-2" >Editar</a>  <a href={% url "players:delete-player" player.id %} class="btn btn-primary btn-sm ml-2" >Eliminar</a></td>
       {% endif %}

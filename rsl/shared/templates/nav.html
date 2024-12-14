@@ -32,11 +32,11 @@
           </li>
         </ul>
         {% if user.is_authenticated %}
-          <a class="btn btn-outline-primary ms-auto" href="{% url 'logout' %}" role="button">
-            <i class="bi bi-box-arrow-in-right"></i> Cerrar Sesión
-          </a>
+        <a class="btn btn-danger ms-auto" href="{% url 'logout' %}" role="button">
+          <i class="bi bi-box-arrow-in-right"></i> Cerrar Sesión
+        </a>
         {% else %}
-          <a class="btn btn-outline-primary ms-auto" href="{% url 'login' %}" role="button">
+          <a class="btn btn-primary ms-auto" href="{% url 'login' %}" role="button">
             <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
           </a>
         {% endif %}

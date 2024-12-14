@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from games.models import Game, Event
 from tournament.models import Team
+
 from .forms import AddGameForm, EditGameForm, AddEventForm, EditEventForm
 from django.shortcuts import redirect, render
+from shared.funcs import admin_required
 
 
 def games(request):
@@ -16,7 +18,7 @@ def game_info(request, game_id):
     events = Event.objects.filter(game=game)
     return render(request, 'games/game_info.html', {'game': game, 'events': events})
 
-
+@admin_required
 def add_game(request):
     if request.method == 'POST':
         if (form := AddGameForm(request.POST)).is_valid():
@@ -27,7 +29,7 @@ def add_game(request):
         form = AddGameForm()
     return render(request, 'games/form.html', {'form': form})
 
-
+@admin_required
 def edit_game(request, game_id):
     game = Game.objects.get(id=game_id)
     if request.method == 'POST':
@@ -39,12 +41,13 @@ def edit_game(request, game_id):
         form = EditGameForm(instance=game)
     return render(request, 'games/form.html', {'form': form})
 
+@admin_required
 def delete_game(request, game_id):
     game = Game.objects.get(id=game_id)
     game.delete()
     return redirect('games:games')
 
-    
+@admin_required   
 def add_event(request, game_id):
     game = Game.objects.get(id=game_id)
     if request.method == 'POST':
@@ -57,7 +60,7 @@ def add_event(request, game_id):
             form = AddEventForm()
     return render(request, 'games/form.html', {'form': form, 'game': game})
 
-
+@admin_required
 def delete_event(request, game_id, event_id):
     event = Event.objects.get(id=event_id)
     event.delete()

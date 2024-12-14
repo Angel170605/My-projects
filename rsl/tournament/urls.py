@@ -12,5 +12,4 @@ urlpatterns = [
     path('<team_id>/', views.team_info, name='team-info'),
     path('<team_id>/edit/', views.edit_team, name='edit-team'),
     path('<team_id>/delete/', views.delete_team, name='delete-team'),
-    path('<team_id>/<user_id>/sign/', views.sign_player, name='sign-player'),
 ]

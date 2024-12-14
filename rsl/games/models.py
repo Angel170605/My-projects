@@ -13,6 +13,30 @@ class Game(models.Model):
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            for player in self.local.players.all():
+                player.played += 1
+                player.save(update_fields=['played'])
+
+            for player in self.away.players.all():
+                player.played += 1
+                player.save(update_fields=['played'])
+
+        super().save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        for event in Event.objects.filter(game=self):
+            event.delete()
+        for player in self.local.players.all():
+                player.played -= 1
+                player.save(update_fields=['played'])
+
+        for player in self.away.players.all():
+            player.played -= 1
+            player.save(update_fields=['played'])
+        super().delete(*args, **kwargs)
 
 
 class Event(models.Model):
@@ -25,12 +49,14 @@ class Event(models.Model):
 
     GOAL = 'GL'
     OWN_GOAL = 'OG'
+    PENALTI_GOAL = 'PG'
     CHANGE = 'CG'
     YELLOW_CARD = 'YC'
     RED_CARD = 'RC'
     TYPE = {
         GOAL: 'Gol',
         OWN_GOAL: 'Autogol',
+        PENALTI_GOAL: 'Gol de penalti',
         CHANGE: 'Cambio',
         YELLOW_CARD: 'Tarjeta Amarilla',
         RED_CARD: 'Tarjeta Roja',
@@ -50,6 +76,8 @@ class Event(models.Model):
                 emote = '⚽️'
             case 'OG':
                 emote = '⚽️ (PP)'
+            case 'PG':
+                emote = '⚽️ (P)'
             case 'YC':
                 emote = '🟨'
             case 'RC':
@@ -72,12 +100,18 @@ class Event(models.Model):
                     self.game.away_goals += 1
                 elif self.player.team == self.game.away:
                     self.game.local_goals += 1
+            case 'PG':
+                self.player.goals += 1
+                if self.player.team == self.game.local:
+                    self.game.local_goals += 1
+                elif self.player.team == self.game.away:
+                    self.game.away_goals += 1
             case 'YC':
                 self.player.yellow_cards += 1
             case  'RC':
                 self.player.red_cards += 1
         self.player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
-        self.game.save(update_fields=['local_goals', 'away_goals', 'played'])
+        self.game.save(update_fields=['local_goals', 'away_goals'])
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -96,6 +130,12 @@ class Event(models.Model):
                     self.game.away_goals -= 1
                 elif self.player.team == self.game.away:
                     self.game.local_goals -= 1
+            case 'PG':
+                self.player.goals -= 1
+                if self.player.team == self.game.local:
+                    self.game.local_goals -= 1
+                elif self.player.team == self.game.away:
+                    self.game.away_goals -= 1
             case 'YC':
                 self.player.yellow_cards -= 1
             case  'RC':

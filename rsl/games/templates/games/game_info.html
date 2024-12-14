@@ -9,11 +9,11 @@
               <div class="col-12">
                   {% if event.player.team == game.local %}
                       <div class="alert alert-primary no-background text-start mx-auto w-75" role="alert">
-                          {{ event }}<a href="{% url "games:delete-event" game.id event.id %}">❌</a>
+                          {{ event }}<a href="{% url "games:delete-event" game.id event.id %}" class="text-decoration-none">   <i class="bi bi-trash text-danger"></i></a>
                       </div>
                   {% else %}
                       <div class="alert alert-secondary no-background text-end mx-auto w-75" role="alert">
-                          {{ event }}<a href="{% url "games:delete-event" game.id event.id %}">❌</a>
+                          {{ event }}<a href="{% url "games:delete-event" game.id event.id %}" class="text-decoration-none">   <i class="bi bi-trash text-danger"></i></a>
                       </div>
                   {% endif %}
               </div>

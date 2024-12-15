@@ -6,6 +6,7 @@ class Team(models.Model):
     name = models.CharField(max_length=100, unique=True)
     club_code = models.CharField(max_length=3, unique=True, default='UFC')
     shield = models.ImageField(upload_to='shields')
+    info = models.TextField(max_length=1000, blank=True)
 
     class Meta:
         ordering = ['name']

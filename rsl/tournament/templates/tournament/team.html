@@ -2,44 +2,63 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-4 text-center mb-5">  <!-- Añadido mb-5 para margen inferior -->
+<div class="container mt-4 text-center mb-5">
   <h1 class="display-4">{{ team.name }}</h1>
   <img src="{{ team.shield.url }}" alt="{{ team.name }}" class="img-fluid mb-4 fixed-size">
 
-  {% if players %}
-    <h2 class="lead text-center">Jugadores</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Jugador</th>
-          <th>Partidos jugados</th>
-          <th>Goles</th>
-          <th>Asistencias</th>
-          <th>Tarjetas Amarillas</th>
-          <th>Tarjetas Rojas</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for player in players %}
-        <tr>
-          <td>{{ player.user.first_name }}</td>
-          <td>{{ player.played }}</td>
-          <td>{{ player.goals }}</td>
-          <td>{{ player.assists }}</td>
-          <td>{{ player.yellow_cards }}</td>
-          <td>{{ player.red_cards }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
+  <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="info-tab" data-bs-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Info</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="jugadores-tab" data-bs-toggle="tab" href="#jugadores" role="tab" aria-controls="jugadores" aria-selected="false">Jugadores</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="partidos-tab" data-bs-toggle="tab" href="#partidos" role="tab" aria-controls="partidos" aria-selected="false">Partidos</a>
+    </li>
+  </ul>
 
-  {% if games %}
-    <h2 class="lead text-center mt-4">Partidos</h2> <!-- Añadido mt-4 para margen superior -->
-    {% for game in games %}
-      {% include "game.html" %}
-    {% endfor %}
-  {% endif %}
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+      <h2 class="lead text-center mt-4">{{ team.name }}</h2>
+      <p>{{ team.info }}</p>
+    </div>
+    <div class="tab-pane fade" id="jugadores" role="tabpanel" aria-labelledby="jugadores-tab">
+      {% if players %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Jugador</th>
+              <th>Partidos jugados</th>
+              <th>Goles</th>
+              <th>Asistencias</th>
+              <th>Tarjetas Amarillas</th>
+              <th>Tarjetas Rojas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for player in players %}
+            <tr>
+              <td>{{ player.user.first_name }}</td>
+              <td>{{ player.played }}</td>
+              <td>{{ player.goals }}</td>
+              <td>{{ player.assists }}</td>
+              <td>{{ player.yellow_cards }}</td>
+              <td>{{ player.red_cards }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+    <div class="tab-pane fade" id="partidos" role="tabpanel" aria-labelledby="partidos-tab">
+      {% if games %}
+        {% for game in games %}
+          {% include "game.html" %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
 
   {% if user.is_superuser %}
   <details class="mt-4">
@@ -71,5 +90,4 @@
   </details>  
   {% endif %}
 </div>
-
 {% endblock %}

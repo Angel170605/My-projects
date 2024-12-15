@@ -11,6 +11,7 @@ class AddTeamForm(forms.ModelForm):
             'name',
             'club_code',
             'shield',
+            'info',
         )
 
 
@@ -21,6 +22,7 @@ class EditTeamForm(forms.ModelForm):
             'name',
             'club_code',
             'shield',
+            'info',
         )
 
 class SignPlayerForm(forms.ModelForm):

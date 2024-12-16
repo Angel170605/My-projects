@@ -10,11 +10,6 @@ from .forms import SignPlayerForm, EditPlayerForm
 from .funcs import get_player_age
 from shared.funcs import admin_required
 
-def player_list(request):
-    players = Player.objects.all()
-    return render(request, 'players/player_list.html', {'players': players })
-
-
 def player_info(request, player_id):
     player = Player.objects.get(id=player_id)
     age = get_player_age(player.birthdate)
@@ -46,7 +41,7 @@ def edit_player(request, player_id):
         if (form := EditPlayerForm(request.POST, instance=player)).is_valid():
             p = form.save(commit=False)
             p.save()
-            return redirect('players:players')
+            return redirect('players:player-info', player_id)
     else:
         form = SignPlayerForm(instance=player)
     return render(request, 'players/form.html', {'form': form})

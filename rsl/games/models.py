@@ -7,6 +7,7 @@ class Game(models.Model):
     local_goals = models.SmallIntegerField(default=0)
     away_goals = models.SmallIntegerField(default=0)
     date = models.DateField(blank=True, null=True)
+    is_league_game = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['date']
@@ -24,7 +25,14 @@ class Game(models.Model):
                 player.played += 1
                 player.save(update_fields=['played'])
 
+            if self.is_league_game:
+                self.local.clasification.played += 1
+                self.away.clasification.played += 1
+                self.local.clasification.save(update_fields=['played'])
+                self.away.clasification.save(update_fields=['played'])
+
         super().save(*args, **kwargs)
+
     
     def delete(self, *args, **kwargs):
         for event in Event.objects.filter(game=self):
@@ -36,6 +44,12 @@ class Game(models.Model):
         for player in self.away.players.all():
             player.played -= 1
             player.save(update_fields=['played'])
+
+        if self.is_league_game:
+            self.local.clasification.played -= 1
+            self.away.clasification.played -= 1
+            self.local.clasification.save(update_fields=['played'])
+            self.away.clasification.save(update_fields=['played'])
         super().delete(*args, **kwargs)
 
 
@@ -93,8 +107,14 @@ class Event(models.Model):
                     self.second_player.save(update_fields=['assists'])
                 if self.player.team == self.game.local:
                     self.game.local_goals += 1
+                    if self.game.is_league_game:
+                        self.game.local.clasification.goals_scored += 1
+                        self.game.away.clasification.goals_conceded += 1
                 elif self.player.team == self.game.away:
                     self.game.away_goals += 1
+                    if self.game.is_league_game:
+                        self.game.away.clasification.goals_scored += 1
+                        self.game.local.clasification.goals_conceded += 1
             case 'OG':
                 if self.player.team == self.game.local:
                     self.game.away_goals += 1
@@ -112,6 +132,8 @@ class Event(models.Model):
                 self.player.red_cards += 1
         self.player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
         self.game.save(update_fields=['local_goals', 'away_goals'])
+        self.game.local.clasification.save(update_fields=['goals_scored', 'goals_conceded'])
+        self.game.away.clasification.save(update_fields=['goals_scored','goals_conceded'])
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -123,8 +145,14 @@ class Event(models.Model):
                     self.second_player.save(update_fields=['assists'])
                 if self.player.team == self.game.local:
                     self.game.local_goals -= 1
+                    if self.game.is_league_game:
+                        self.game.local.clasification.goals_scored -= 1
+                        self.game.away.clasification.goals_conceded -= 1
                 elif self.player.team == self.game.away:
                     self.game.away_goals -= 1
+                    if self.game.is_league_game:
+                        self.game.away.clasification.goals_scored -= 1
+                        self.game.local.clasification.goals_conceded -= 1
             case 'OG':
                 if self.player.team == self.game.local:
                     self.game.away_goals -= 1
@@ -142,6 +170,8 @@ class Event(models.Model):
                 self.player.red_cards -= 1
         self.player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
         self.game.save(update_fields=['local_goals', 'away_goals'])
+        self.game.local.clasification.save(update_fields=['goals_scored', 'goals_conceded'])
+        self.game.away.clasification.save(update_fields=['goals_scored', 'goals_conceded'])
         super().delete(*args, **kwargs)
 
     class Meta:

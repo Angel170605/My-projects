@@ -7,7 +7,9 @@
     {% for team in teams %}
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="{{ team.shield.url }}" class="card-img-top" alt="{{ team.name }}">
+          <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <img src="{{ team.shield.url }}" class="img-fluid" alt="{{ team.name }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+          </div>
           <div class="card-body text-center">
             <h5 class="card-title">{{ team.name }}</h5>
             <div class="d-flex justify-content-center">
@@ -24,7 +26,9 @@
     {% if user.is_superuser %}
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="{% static 'img/add.png' %}" class="card-img-top" alt="Añadir equipo">
+          <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <img src="{% static 'img/add.png' %}" class="img-fluid" alt="Añadir equipo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+          </div>
           <div class="card-body text-center">
             <h5 class="card-title">Añadir equipo</h5>
             <div class="d-flex justify-content-center">

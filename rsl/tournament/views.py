@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.db.models import Q
 
 from players.models import Player
-from tournament.models import Team
+from tournament.models import Team, Clasification
 from games.models import Game
 
 from .forms import AddTeamForm, EditTeamForm, SignPlayerForm
@@ -31,6 +31,15 @@ def team_info(request, team_id):
     return render(
         request, 'tournament/team.html', {'team': team, 'users': users, 'players': players, 'games': games}
     )
+
+def clasification(request):
+    teams = Team.objects.all()
+    players = Player.objects.all()
+    top_scorers = players.order_by('-goals', 'team', 'user')
+    top_assists = players.order_by('-assists', 'team', 'user')
+    top_yc = players.order_by('-yellow_cards', 'team', 'user')
+    top_rc = players.order_by('-red_cards', 'team', 'user')
+    return render(request, 'tournament/clasification.html', {'teams': teams, 'players': players, 'top_scorers': top_scorers[:5], 'top_assists': top_assists[:5], 'top_yc': top_yc[:5], 'top_rc': top_rc[:5]})
 
 @admin_required
 def add_team(request):

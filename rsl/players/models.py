@@ -5,6 +5,7 @@ from tournament.models import Team
 
 class Player(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='players', default='players/default.png')
     team = models.ForeignKey('tournament.Team', related_name='players', null=True, on_delete=models.CASCADE)
     birthdate = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=20, default='🇪🇸')

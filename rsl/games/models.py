@@ -144,7 +144,7 @@ class Event(models.Model):
         away.clasification.save(update_fields=['goals_scored','goals_conceded', 'goals_difference'])
         super().save(*args, **kwargs)
 
-        def delete(self, *args, **kwargs):
+    def delete(self, *args, **kwargs):
         local = self.game.local
         away = self.game.away
         game = self.game

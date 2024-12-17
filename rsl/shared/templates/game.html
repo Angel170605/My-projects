@@ -1,6 +1,7 @@
 <div class="container mt-4">
   <div class="row align-items-center border rounded p-3 mb-3">
     <div class="col text-center">
+      <h6 class="text-muted text-center">{{ game.date|date:"d-m-Y" }}   {{ game.time|date:"H:i" }}</h6>
       <h5>{{ game.local }}</h5>
       <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
         <img src="{{ game.local.shield.url }}" alt="{{ game.local }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;">

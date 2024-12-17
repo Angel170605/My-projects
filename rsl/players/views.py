@@ -7,8 +7,7 @@ from players.models import Player
 
 from .forms import SignPlayerForm, EditPlayerForm
 
-from .funcs import get_player_age
-from shared.funcs import admin_required
+from shared.funcs import admin_required, get_player_age
 
 def player_info(request, player_id):
     player = Player.objects.get(id=player_id)
@@ -38,7 +37,7 @@ def edit_player(request, player_id):
         return HttpResponseForbidden()
     player = Player.objects.get(id=player_id)
     if request.method == 'POST':
-        if (form := EditPlayerForm(request.POST, instance=player)).is_valid():
+        if (form := EditPlayerForm(request.POST, request.FILES, instance=player)).is_valid():
             p = form.save(commit=False)
             p.save()
             return redirect('players:player-info', player_id)

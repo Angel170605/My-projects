@@ -3,7 +3,7 @@ from .models import Game, Event
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ['local', 'away', 'local_goals', 'away_goals', 'is_league_game']
+    list_display = ['local', 'away', 'local_goals', 'away_goals', 'date', 'time', 'is_league_game']
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):

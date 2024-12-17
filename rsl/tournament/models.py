@@ -19,7 +19,8 @@ class Team(models.Model):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        Clasification.objects.create(team=self)
+        if not Clasification.objects.filter(team=self).exists():
+            Clasification.objects.create(team=self)
     
 class Clasification(models.Model):
     team = models.OneToOneField('tournament.Team', related_name='clasification', null=True, on_delete=models.CASCADE)
@@ -37,4 +38,8 @@ class Clasification(models.Model):
 
     def __str__(self):
         return f'{self.points} {self.played} {self.wins} {self.draws} {self.loses} {self.goals_scored} {self.goals_conceded} {self.goals_difference}'
+    
+    def save(self, *args, **kwargs):
+        self.goals_difference = self.goals_scored - self.goals_conceded
+        super().save(*args, **kwargs)
     

@@ -4,12 +4,15 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-4 text-center">
-            <img src="{{ player.team.shield.url }}" class="img-fluid" style="max-width: 100px; max-height: 100px;" alt="Escudo de {{ player.team.name }}">
-            <h3>{{ player.team.name }}</h3>
+            <img src="{{ player.photo.url }}" class="img-fluid" style="max-width: 100px; max-height: 100px;" alt="Foto de {{ player.user.first_name }} {{ player.user.last_name }}">
+            <h3>{{ player.user.first_name }} {{ player.user.last_name }}</h3>
         </div>
         <div class="col-md-8">
-            <h2>{{ player.user.first_name }} {{ player.user.last_name }}</h2>
-            <h3>{{ player.position }}  {{ player.number }}</h3>
+            <div class="d-flex align-items-center">
+                <img src="{{ player.team.shield.url }}" class="img-fluid" style="max-width: 25px; max-height: 25px;" alt="Escudo de {{ player.team.name }}">
+                <h4 class="ms-2">{{ player.team.name }}</h4> 
+            </div>
+            <h4>{{ player.position }}  {{ player.number }}</h4>
             <p><strong>País:</strong> {{ player.country }}</p>
             <p><strong>Edad:</strong> {{ age }}</p>
         </div>

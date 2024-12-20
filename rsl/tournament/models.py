@@ -34,7 +34,7 @@ class Clasification(models.Model):
     goals_difference = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ['-points', '-goals_difference', '-team']
+        ordering = ['-points', '-goals_difference', '-played', '-team']
 
     def __str__(self):
         return f'{self.points} {self.played} {self.wins} {self.draws} {self.loses} {self.goals_scored} {self.goals_conceded} {self.goals_difference}'

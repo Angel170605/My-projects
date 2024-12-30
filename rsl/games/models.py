@@ -9,6 +9,20 @@ class Game(models.Model):
     date = models.DateField(blank=True, null=True)
     time = models.TimeField(blank=True, null=True)
     is_league_game = models.BooleanField(default=False)
+    TO_PLAY = 'T'
+    IN_GAME = 'I'
+    FINISHED = 'F'
+    GAME_STATUS = {
+        TO_PLAY: 'Pendiente',
+        IN_GAME: 'En juego',
+        FINISHED: 'Finalizado'
+    }
+
+    status = models.CharField(
+        max_length=1,
+        choices=GAME_STATUS,
+        default=TO_PLAY,
+    )
 
     class Meta:
         ordering = ['date']
@@ -158,26 +172,38 @@ class Event(models.Model):
                     second_player.assists -= 1
                     second_player.save(update_fields=['assists'])
                 if player.team == local:
-                    local_goals -= 1
+                    game.local_goals -= 1
                     if game.is_league_game:
                         local.clasification.goals_scored -= 1
                         away.clasification.goals_conceded -= 1
                 elif player.team == away:
-                    away_goals -= 1
+                    game.away_goals -= 1
                     if game.is_league_game:
                         away.clasification.goals_scored -= 1
                         local.clasification.goals_conceded -= 1
             case 'OG':
                 if player.team == local:
-                    away_goals -= 1
+                    game.away_goals -= 1
+                    if game.is_league_game:
+                       local.clasification.goals_scored -= 1
+                       away.clasification.goals_conceded -= 1
                 elif player.team == away:
-                    local_goals -= 1
+                    game.local_goals -= 1
+                    if game.is_league_game:
+                        away.clasification.goals_scored -= 1
+                        local.clasification.goals_conceded -= 1
             case 'PG':
                 player.goals -= 1
                 if player.team == local:
-                    local_goals -= 1
+                    game.local_goals -= 1
+                    if game.is_league_game:
+                       local.clasification.goals_scored -= 1
+                       away.clasification.goals_conceded -= 1
                 elif player.team == away:
-                    away_goals -= 1
+                    game.away_goals -= 1
+                    if game.is_league_game:
+                        away.clasification.goals_scored -= 1
+                        local.clasification.goals_conceded -= 1
             case 'YC':
                 player.yellow_cards -= 1
             case  'RC':

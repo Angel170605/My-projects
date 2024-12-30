@@ -1,5 +1,6 @@
 from django.http import HttpResponseForbidden
-from datetime import date, time
+from datetime import date
+
 
 def admin_required(func):
     def wrapper(request, *args, **kwargs):
@@ -24,11 +25,3 @@ def get_player_age(birthdate: date) -> int:
             return YEAR - birthdate.year
     else:
         return YEAR - birthdate.year
-    
-from datetime import datetime, timedelta
-
-def has_finished(date, time):
-    game_datetime = datetime.combine(date, time)
-    end_time = game_datetime + timedelta(minutes=30)
-    now = datetime.now()
-    return now > end_time

@@ -9,17 +9,17 @@ class Game(models.Model):
     date = models.DateField(blank=True, null=True)
     time = models.TimeField(blank=True, null=True)
     is_league_game = models.BooleanField(default=False)
-    TO_PLAY = 'T'
-    IN_GAME = 'I'
-    FINISHED = 'F'
+    TO_PLAY = 'Pendiente'
+    IN_GAME = 'En juego'
+    FINISHED = 'Finalizado'
     GAME_STATUS = {
-        TO_PLAY: 'Pendiente',
+        TO_PLAY: 'Por jugar',
         IN_GAME: 'En juego',
         FINISHED: 'Finalizado'
     }
 
     status = models.CharField(
-        max_length=1,
+        max_length=25,
         choices=GAME_STATUS,
         default=TO_PLAY,
     )
@@ -43,8 +43,17 @@ class Game(models.Model):
             if self.is_league_game:
                self.local.clasification.played += 1
                self.away.clasification.played += 1
-               self.local.clasification.save(update_fields=['played'])
-               self.away.clasification.save(update_fields=['played'])
+               if self.status == 'Finalizado':
+                    if self.local_goals > self.away_goals:
+                       self.local.clasification.points += 3
+                    elif self.local_goals < self.away_goals:
+                       self.local.clasification.points += 3
+                    elif self.local_goals == self.away_goals:
+                       self.local.clasification.points += 1
+                       self.away.clasification.points += 1
+            self.local.clasification.save(update_fields=['played', 'points'])
+            self.away.clasification.save(update_fields=['played', 'points'])
+                    
 
         super().save(*args, **kwargs)
 
@@ -63,8 +72,16 @@ class Game(models.Model):
         if self.is_league_game:
             self.local.clasification.played -= 1
             self.away.clasification.played -= 1
-            self.local.clasification.save(update_fields=['played'])
-            self.away.clasification.save(update_fields=['played'])
+            if self.status == 'Finalizado':
+                    if self.local_goals > self.away_goals:
+                       self.local.clasification.points -= 3
+                    elif self.local_goals < self.away_goals:
+                       self.local.clasification.points -= 3
+                    elif self.local_goals == self.away_goals:
+                       self.local.clasification.points -= 1
+                       self.away.clasification.points -= 1
+            self.local.clasification.save(update_fields=['played', 'points'])
+            self.away.clasification.save(update_fields=['played', 'points'])
         super().delete(*args, **kwargs)
 
 

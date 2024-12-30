@@ -5,7 +5,7 @@ from .models import Game, Event
 class AddGameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ('local', 'away', 'local_goals', 'away_goals', 'date', 'time', 'is_league_game')
+        fields = ('local', 'away', 'local_goals', 'away_goals', 'date', 'time', 'status', 'is_league_game')
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
@@ -14,7 +14,7 @@ class AddGameForm(forms.ModelForm):
 class EditGameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ('local', 'away', 'local_goals', 'away_goals', 'date', 'time', 'is_league_game')
+        fields = ('local', 'away', 'local_goals', 'away_goals', 'date', 'time', 'status', 'is_league_game')
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),

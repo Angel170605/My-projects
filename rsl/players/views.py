@@ -21,7 +21,7 @@ def sign_player(request, team_id, user_id):
     team = Team.objects.get(id=team_id)
     user = User.objects.get(id=user_id)
     if request.method == 'POST':
-        if (form := SignPlayerForm(request.POST)).is_valid():
+        if (form := SignPlayerForm(request.POST, request.FILES)).is_valid():
             player = form.save(commit=False)
             player.user = user
             player.team = team

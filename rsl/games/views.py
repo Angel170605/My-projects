@@ -65,5 +65,11 @@ def delete_event(request, game_id, event_id):
     event = Event.objects.get(id=event_id)
     event.delete()
     return redirect('games:game-info', game_id)
+
+def point_game(request, game_id):
+    game = Game.objects.get(id=game_id)
+    game.point_game()
+    return redirect('games:game-info', game_id)
+
     
 

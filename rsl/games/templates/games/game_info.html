@@ -23,6 +23,7 @@
   {% if user.is_superuser %}
     <div class="text-center mt-3">
       <a href="{% url 'games:add-event' game.id %}" class="btn btn-primary btn-sm">Añadir evento</a>
+      <a href="{% url 'games:point-game' game.id %}" class="btn btn-primary btn-sm">Puntuar partido</a>
     </div>
   {% endif %}
 {% endblock %}

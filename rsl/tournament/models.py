@@ -43,3 +43,29 @@ class Clasification(models.Model):
         self.goals_difference = self.goals_scored - self.goals_conceded
         super().save(*args, **kwargs)
     
+    def count_win(self, add: bool):
+        if add:
+            self.points += 3
+            self.wins += 1
+        else:
+            self.points -= 3
+            self.wins -= 1
+        self.save()
+
+    def count_draw(self, add: bool):
+        if add:
+            self.points += 1
+            self.draws += 1
+        else:
+            self.points -= 1
+            self.draws -= 1
+        self.save()
+
+    def count_lose(self, add: bool):
+        if add:
+            self.loses += 1
+        else:
+            self.loses -= 1
+        self.save()
+
+

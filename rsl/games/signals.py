@@ -47,6 +47,8 @@ def discount_deleted_match(sender, instance, **kwargs):
 def aply_event_stats(sender, instance, created, **kwargs):
     player = instance.player
     second_player = instance.second_player
+    local_team = instance.game.local.clasification
+    away_team = instance.game.away.clasification
     add = True 
 
     if created:
@@ -54,8 +56,12 @@ def aply_event_stats(sender, instance, created, **kwargs):
             case 'GL' | 'PG':
                   instance.count_game_goal(add=add)
                   player.count_goal(add=add, second_player=second_player)
+                  local_team.calc_goals_difference(add=add)
+                  away_team.calc_goals_difference(add=add)
             case 'OG':
                     instance.count_own_goal(add=add)
+                    local_team.calc_goals_difference(add=add)
+                    away_team.calc_goals_difference(add=add)
             case 'YC':
                   player.count_yellow_card(add=add)
             case 'RC':
@@ -65,14 +71,20 @@ def aply_event_stats(sender, instance, created, **kwargs):
 def delete_event_stats(sender, instance, **kwargs):
     player = instance.player
     second_player = instance.second_player
+    local_team = instance.game.local.clasification
+    away_team = instance.game.away.clasification
     add = False 
 
     match instance.type:
         case 'GL' | 'PG':
               instance.count_game_goal(add=add)
               player.count_goal(add=add, second_player=second_player)
+              local_team.calc_goals_difference(add=add)
+              away_team.calc_goals_difference(add=add)
         case 'OG':
-                instance.count_own_goal(add=add)
+              instance.count_own_goal(add=add)
+              local_team.calc_goals_difference(add=add)
+              away_team.calc_goals_difference(add=add)
         case 'YC':
               player.count_yellow_card(add=add)
         case 'RC':

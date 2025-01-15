@@ -56,6 +56,13 @@ class Clasification(models.Model):
             self.loses -= 1
         self.save()
 
+    def calc_goals_difference(self, add: bool):
+        if add:
+            self.goals_difference = self.goals_scored - self.goals_conceded
+        elif not add:
+            self.goals_difference = self.goals_scored + self.goals_conceded
+        self.save()
+
     def clear_clasification_stats(self):
         self.points = 0
         self.played = 0

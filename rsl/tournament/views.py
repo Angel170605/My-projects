@@ -33,7 +33,7 @@ def team_info(request, team_id):
     )
 
 def clasification(request):
-    teams = Team.objects.all()
+    teams = Team.objects.all().order_by('clasification')
     players = Player.objects.all()
     top_scorers = players.order_by('-goals', '-played', 'team', 'user')
     top_assists = players.order_by('-assists', '-played', 'team', 'user')

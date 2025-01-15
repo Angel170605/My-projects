@@ -13,14 +13,6 @@ class Team(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-    def get_absolute_url(self):
-        return reverse('tournament:team-info', kwargs={'club_code': self.club_code})
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not Clasification.objects.filter(team=self).exists():
-            Clasification.objects.create(team=self)
     
 class Clasification(models.Model):
     team = models.OneToOneField('tournament.Team', related_name='clasification', null=True, on_delete=models.CASCADE)
@@ -34,20 +26,16 @@ class Clasification(models.Model):
     goals_difference = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ['-points', '-goals_difference', '-played', '-team']
+        ordering = ['-points', '-played']
 
     def __str__(self):
         return f'{self.points} {self.played} {self.wins} {self.draws} {self.loses} {self.goals_scored} {self.goals_conceded} {self.goals_difference}'
-    
-    def save(self, *args, **kwargs):
-        self.goals_difference = self.goals_scored - self.goals_conceded
-        super().save(*args, **kwargs)
     
     def count_win(self, add: bool):
         if add:
             self.points += 3
             self.wins += 1
-        else:
+        elif not add:
             self.points -= 3
             self.wins -= 1
         self.save()
@@ -56,7 +44,7 @@ class Clasification(models.Model):
         if add:
             self.points += 1
             self.draws += 1
-        else:
+        elif not add:
             self.points -= 1
             self.draws -= 1
         self.save()
@@ -64,8 +52,18 @@ class Clasification(models.Model):
     def count_lose(self, add: bool):
         if add:
             self.loses += 1
-        else:
+        elif not add:
             self.loses -= 1
         self.save()
 
+    def clear_clasification_stats(self):
+        self.points = 0
+        self.played = 0
+        self.wins = 0
+        self.draws = 0
+        self.loses = 0
+        self.goals_scored = 0
+        self.goals_conceded = 0
+        self.goals_difference = 0
+        self.save()
 

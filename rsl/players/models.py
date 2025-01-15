@@ -39,3 +39,40 @@ class Player(models.Model):
     
     class Meta:
         ordering = ['team', 'position', 'number']
+
+    def count_goal(self, add: bool, second_player=None):
+        if add:
+            self.goals += 1
+            if second_player:
+                second_player.assists += 1
+        elif not add:
+            self.goals -= 1
+            if second_player:
+                second_player.assists -= 1
+
+        self.save(update_fields=['goals'])
+        second_player.save(update_fields=['assists'])
+
+    def count_yellow_card(self, add: bool):
+        if add:
+            self.yellow_cards += 1
+        elif not add:
+            self.yellow_cards -= 1
+        
+        self.save(update_fields=['yellow_cards'])
+
+    def count_red_card(self, add: bool):
+        if add:
+            self.red_cards += 1
+        elif not add:
+            self.red_cards -= 1
+        
+        self.save(update_fields=['red_cards'])
+
+    def clear_player_stats(self):
+        self.played = 0
+        self.goals = 0
+        self.assists = 0
+        self.yellow_cards = 0
+        self.red_cards = 0
+        self.save()

@@ -15,30 +15,6 @@ class Game(models.Model):
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            for player in self.local.players.all():
-                player.played += 1
-                player.save(update_fields=['played'])
-
-            for player in self.away.players.all():
-                player.played += 1
-                player.save(update_fields=['played'])
-        super().save(*args, **kwargs)
-
-
-    def delete(self, *args, **kwargs):
-        for event in Event.objects.filter(game=self):
-            event.delete()
-        for player in self.local.players.all():
-                player.played -= 1
-                player.save(update_fields=['played'])
-
-        for player in self.away.players.all():
-            player.played -= 1
-            player.save(update_fields=['played'])
-        super().delete(*args, **kwargs)
 
     def point_game(self):
         local = self.local
@@ -92,6 +68,44 @@ class Event(models.Model):
         default=GOAL,
     )
 
+    def count_game_goal(self, add: bool):
+        local = self.game.local
+        away = self.game.away
+        if add:
+            oper = 1
+        elif not add:
+            oper = -1
+        if self.player.team == self.game.local:
+            local.clasification.goals_scored += oper
+            away.clasification.goals_conceded += oper
+            self.game.local_goals += oper
+        elif self.player.team == self.game.away:
+            away.clasification.goals_scored += oper
+            local.clasification.goals_conceded += oper
+            self.game.away_goals += oper
+        local.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
+        away.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
+        self.game.save(update_fields=['local_goals', 'away_goals'])
+
+    def count_own_goal(self, add: bool):
+        local = self.game.local
+        away = self.game.away
+        if add:
+            oper = 1
+        elif not add:
+            oper = -1
+        if self.player.team == self.game.local:
+            away.clasification.goals_scored += oper
+            local.clasification.goals_conceded += oper
+            self.game.away_goals += oper
+        elif self.player.team == self.game.away:
+            local.clasification.goals_scored += oper
+            away.clasification.goals_conceded += oper
+            self.game.local_goals += oper
+        local.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
+        away.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
+        self.game.save(update_fields=['local_goals', 'away_goals'])
+
     def __str__(self) -> str:
         match self.type:
             case 'CG':
@@ -107,99 +121,6 @@ class Event(models.Model):
             case 'RC':
                 emote = '🟥'
         return f'{emote} {self.player.user.first_name} {self.minute}\''
-
-    def save(self, *args, **kwargs):
-        local = self.game.local
-        away = self.game.away
-        game = self.game
-        player = self.player
-        second_player = self.second_player
-
-        match self.type:
-            case 'GL':
-                player.goals += 1
-                if second_player:
-                    second_player.assists += 1
-                    second_player.save(update_fields=['assists'])
-                if player.team == local:
-                    game.local_goals += 1
-                    local.clasification.goals_scored += 1
-                    away.clasification.goals_conceded += 1
-                elif player.team == away:
-                    game.away_goals += 1
-                    away.clasification.goals_scored += 1
-                    local.clasification.goals_conceded += 1
-            case 'OG':
-                if player.team == local:
-                    game.away_goals += 1
-                elif player.team == away:
-                    game.local_goals += 1
-            case 'PG':
-                player.goals += 1
-                if player.team == local:
-                    game.local_goals += 1
-                elif player.team == away:
-                    game.away_goals += 1
-            case 'YC':
-                player.yellow_cards += 1
-            case  'RC':
-                player.red_cards += 1
-
-        player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
-        game.save(update_fields=['local_goals', 'away_goals'])
-        local.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
-        away.clasification.save(update_fields=['goals_scored','goals_conceded', 'goals_difference'])
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        local = self.game.local
-        away = self.game.away
-        game = self.game
-        player = self.player
-        second_player = self.second_player
-
-        match self.type:
-            case 'GL':
-                player.goals -= 1
-                if second_player:
-                    second_player.assists -= 1
-                    second_player.save(update_fields=['assists'])
-                if player.team == local:
-                    game.local_goals -= 1
-                    local.clasification.goals_scored -= 1
-                    away.clasification.goals_conceded -= 1
-                elif player.team == away:
-                    game.away_goals -= 1
-                    away.clasification.goals_scored -= 1
-                    local.clasification.goals_conceded -= 1
-            case 'OG':
-                if player.team == local:
-                    game.away_goals -= 1
-                    local.clasification.goals_scored -= 1
-                    away.clasification.goals_conceded -= 1
-                elif player.team == away:
-                    game.local_goals -= 1
-                    away.clasification.goals_scored -= 1
-                    local.clasification.goals_conceded -= 1
-            case 'PG':
-                player.goals -= 1
-                if player.team == local:
-                    game.local_goals -= 1
-                    local.clasification.goals_scored -= 1
-                    away.clasification.goals_conceded -= 1
-                elif player.team == away:
-                    game.away_goals -= 1
-                    away.clasification.goals_scored -= 1
-                    local.clasification.goals_conceded -= 1
-            case 'YC':
-                player.yellow_cards -= 1
-            case  'RC':
-                player.red_cards -= 1
-        player.save(update_fields=['goals', 'yellow_cards', 'red_cards'])
-        game.save(update_fields=['local_goals', 'away_goals'])
-        local.clasification.save(update_fields=['goals_scored', 'goals_conceded'])
-        away.clasification.save(update_fields=['goals_scored', 'goals_conceded'])
-        super().delete(*args, **kwargs)
 
     class Meta:
         ordering = ['minute']

@@ -39,7 +39,7 @@ def clasification(request):
     top_assists = players.order_by('-assists', '-played', 'team', 'user')
     top_yc = players.order_by('-yellow_cards', '-played', 'team', 'user')
     top_rc = players.order_by('-red_cards', '-played', 'team', 'user')
-    return render(request, 'tournament/clasification.html', {'teams': teams, 'players': players, 'top_scorers': top_scorers[:5], 'top_assists': top_assists[:5], 'top_yc': top_yc[:5], 'top_rc': top_rc[:5]})
+    return render(request, 'tournament/clasification.html', {'teams': teams, 'players': players, 'top_scorers': top_scorers[:10], 'top_assists': top_assists[:10], 'top_yc': top_yc[:10], 'top_rc': top_rc[:10]})
 
 @admin_required
 def add_team(request):

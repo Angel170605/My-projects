@@ -40,7 +40,7 @@ def discount_deleted_match(sender, instance, **kwargs):
         player.save(update_fields=['played'])
 
     if instance.pointed:
-         instance.point_match(add=False)
+         instance.point_game()
 
 
 @receiver(post_save, sender=Event)
@@ -56,16 +56,16 @@ def aply_event_stats(sender, instance, created, **kwargs):
             case 'GL' | 'PG':
                   instance.count_game_goal(add=add)
                   player.count_goal(add=add, second_player=second_player)
-                  local_team.calc_goals_difference(add=add)
-                  away_team.calc_goals_difference(add=add)
             case 'OG':
                     instance.count_own_goal(add=add)
-                    local_team.calc_goals_difference(add=add)
-                    away_team.calc_goals_difference(add=add)
+
             case 'YC':
                   player.count_yellow_card(add=add)
             case 'RC':
                   player.count_red_card
+    
+    local_team.calc_goals_difference()
+    away_team.calc_goals_difference()
 
 @receiver(pre_delete, sender=Event)
 def delete_event_stats(sender, instance, **kwargs):
@@ -79,13 +79,12 @@ def delete_event_stats(sender, instance, **kwargs):
         case 'GL' | 'PG':
               instance.count_game_goal(add=add)
               player.count_goal(add=add, second_player=second_player)
-              local_team.calc_goals_difference(add=add)
-              away_team.calc_goals_difference(add=add)
         case 'OG':
               instance.count_own_goal(add=add)
-              local_team.calc_goals_difference(add=add)
-              away_team.calc_goals_difference(add=add)
         case 'YC':
               player.count_yellow_card(add=add)
         case 'RC':
               player.count_red_card
+    
+    local_team.calc_goals_difference()
+    away_team.calc_goals_difference()

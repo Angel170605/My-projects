@@ -33,7 +33,8 @@ class AddEventForm(forms.ModelForm):
         local = game.local
         away = game.away
         self.fields['player'].queryset = Player.objects.filter(Q(team=local) | Q(team=away))
-        self.fields['second_player'].queryset = Player.objects.filter(Q(team=local) | Q(team=away))
+        if self.second_player:
+            self.fields['second_player'].queryset = Player.objects.filter(Q(team=local) | Q(team=away))
 
     def save(self, *args, **kwargs):
         event = super().save(commit=False)

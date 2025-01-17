@@ -11,7 +11,10 @@ from shared.funcs import admin_required, get_player_age
 
 def player_info(request, player_id):
     player = Player.objects.get(id=player_id)
-    age = get_player_age(player.birthdate)
+    if player.birthdate:
+        age = get_player_age(player.birthdate)
+    else:
+        age = ''
     return render(request, 'players/player.html', {'player': player, 'age': age})
 
 @admin_required
@@ -48,5 +51,6 @@ def edit_player(request, player_id):
 @admin_required
 def delete_player(request, player_id):
     player = Player.objects.get(id=player_id)
+    team_id = player.team.id
     player.delete()
-    return redirect('players:player-list')
+    return redirect('tournament:team-info', team_id)

@@ -51,7 +51,8 @@ class Player(models.Model):
                 second_player.assists -= 1
 
         self.save(update_fields=['goals'])
-        second_player.save(update_fields=['assists'])
+        if second_player:
+            second_player.save(update_fields=['assists'])
 
     def count_yellow_card(self, add: bool):
         if add:

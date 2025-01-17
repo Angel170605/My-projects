@@ -11,7 +11,7 @@ class Game(models.Model):
     pointed = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['date']
+        ordering = ['-date']
 
     def __str__(self) -> str:
         return f'{self.local} {self.local_goals} - {self.away_goals} {self.away}'

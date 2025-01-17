@@ -2,12 +2,18 @@
   <div class="row align-items-center border rounded p-3 mb-3">
     <div class="col text-center">
       <h6 class="text-muted text-center">
-        {% if game.status == 'Pendiente' %}
-            {{ game.date|date:"d-m-Y" }}  {{ game.time|time:"H:i" }}
+        {% if game.pointed %}
+          <span class="font-weight-bold h5" data-toggle="collapse" data-target="#fecha{{ game.id }}" aria-expanded="false" aria-controls="fecha{{ game.id }}">
+            Finalizado
+          </span>
+          <div class="collapse" id="fecha{{ game.id }}">
+            <div class="mt-2">{{ game.date|date:"d-m-Y" }}  {{ game.time|time:"H:i" }}</div>
+          </div>
         {% else %}
-            {{ game.status }}
+          {{ game.date|date:"d-m-Y" }}  {{ game.time|time:"H:i" }}
         {% endif %}
-    </h6><h5>{{ game.local }}</h5>
+      </h6>
+      <h5>{{ game.local }}</h5>
       <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
         <img src="{{ game.local.shield.url }}" alt="{{ game.local }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;">
       </div>

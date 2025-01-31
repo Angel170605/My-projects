@@ -1,8 +1,10 @@
 from django.db import models
-from players.models import Player
+
 
 class Game(models.Model):
-    local = models.ForeignKey('tournament.Team', related_name='local_games', on_delete=models.CASCADE)
+    local = models.ForeignKey(
+        'tournament.Team', related_name='local_games', on_delete=models.CASCADE
+    )
     away = models.ForeignKey('tournament.Team', related_name='away_games', on_delete=models.CASCADE)
     local_goals = models.SmallIntegerField(default=0)
     away_goals = models.SmallIntegerField(default=0)
@@ -83,8 +85,12 @@ class Event(models.Model):
             away.clasification.goals_scored += oper
             local.clasification.goals_conceded += oper
             self.game.away_goals += oper
-        local.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
-        away.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
+        local.clasification.save(
+            update_fields=['goals_scored', 'goals_conceded', 'goals_difference']
+        )
+        away.clasification.save(
+            update_fields=['goals_scored', 'goals_conceded', 'goals_difference']
+        )
         self.game.save(update_fields=['local_goals', 'away_goals'])
 
     def count_own_goal(self, add: bool):
@@ -102,14 +108,18 @@ class Event(models.Model):
             local.clasification.goals_scored += oper
             away.clasification.goals_conceded += oper
             self.game.local_goals += oper
-        local.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
-        away.clasification.save(update_fields=['goals_scored', 'goals_conceded', 'goals_difference'])
+        local.clasification.save(
+            update_fields=['goals_scored', 'goals_conceded', 'goals_difference']
+        )
+        away.clasification.save(
+            update_fields=['goals_scored', 'goals_conceded', 'goals_difference']
+        )
         self.game.save(update_fields=['local_goals', 'away_goals'])
 
     def __str__(self) -> str:
         match self.type:
             case 'CG':
-                return f'{self.player.user.first_name} ↕️ {self.second_player.user.first_name} {self.minute}\''
+                return f"{self.player.user.first_name} ↕️ {self.second_player.user.first_name} {self.minute}'"
             case 'GL':
                 emote = '⚽️'
             case 'OG':
@@ -120,7 +130,7 @@ class Event(models.Model):
                 emote = '🟨'
             case 'RC':
                 emote = '🟥'
-        return f'{emote} {self.player.user.first_name} {self.minute}\''
+        return f"{emote} {self.player.user.first_name} {self.minute}'"
 
     class Meta:
         ordering = ['minute']

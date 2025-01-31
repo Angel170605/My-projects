@@ -1,0 +1,17 @@
+.fixed-size {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+details summary {
+  outline: none;
+}
+
+.no-background {
+  background-color: transparent !important;
+  border: none !important;
+}

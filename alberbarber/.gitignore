@@ -1,4 +1,0 @@
-.venv
-db.sqlite
-*.pyc
-.mypy_cache

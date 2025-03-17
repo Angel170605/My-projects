@@ -1,2 +1,2 @@
-# jamon
-repository made to upload my personal projects
+# My projects
+Repository made to upload my personal projects
